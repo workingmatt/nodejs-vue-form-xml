@@ -1,0 +1,19 @@
+{
+	"name":"FCMS-Web-App",
+	"version":"0.0.1",
+	"description":"testPage",
+	"author":"Matt Mapleston",
+	"scripts": {
+		"start": "node server",
+		"watch": "nodemon server"
+	},
+	"dependencies": {
+		"express": "",
+		"ejs": "",
+		"vue": "",
+		"vue-resource": "",
+		"body-parser": "",
+		"nodemon": ""
+
+	}
+}

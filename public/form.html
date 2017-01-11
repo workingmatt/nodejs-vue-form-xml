@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="bootstrap.min.css">
+
+</head>
+
+<body>
+
+	<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<a class="navbar-brand">menu item</a>
+	</div>
+	</nav>
+
+	<div class="container" id="form">
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+			Enter details for xml file
+			</div>
+			<div class="panel-body">
+			Various text fields must be completed
+			<input class="form-control" placeholder="text1" v-model="form.text1">
+			<button class="btn btn-primary" v-on:click="addForm">Submit</button>
+			</div>
+		</div>
+		<div class="list-group">
+			<h3 class="list-group-item" v-for="(form, index) in forms">
+			{{ form.text1 }}
+			</h3>
+		</div>
+	</div>
+	</div>
+
+<!-- JS -->
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="node_modules/vue-resource/dist/vue-resource.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
