@@ -28,5 +28,5 @@ require('./public/routes.js')(app);
 
 var server = https.createServer(httpsOptions, app);
 server.listen(port, function() {
-	console.log("in there");
+	console.log("Running server on port "+port);
 });

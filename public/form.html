@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<link rel="stylesheet" href="bootstrap.min.css">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
 
 </head>
 
@@ -9,12 +9,14 @@
 
 	<nav class="navbar navbar-default">
 	<div class="container-fluid">
-		<a class="navbar-brand">menu item</a>
+		<a class="navbar-brand" href="#"><span class="glyphicon glyphicon-plus"></span>Entry Form</a>
+		<a class="navbar-brand" href="#"><span class="glyphicon glyphicon-file"></span>XML Files</a>
+		<a class="navbar-brand" href="#"><span class="glyphicon glyphicon-file"></span>Visio Files</a>
 	</div>
 	</nav>
 
 	<div class="container" id="form">
-	<div class="col-sm-6">
+	<div class="col-sm-4">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 			Enter details for xml file
@@ -24,6 +26,9 @@
 			<input class="form-control" placeholder="text1" v-model="form.text1">
 			<button class="btn btn-primary" v-on:click="addForm">Submit</button>
 			</div>
+		</div>
+		<div>
+			<p>Here: <span class="glyphicon glyphicon-plus"></span></p>
 		</div>
 		<div class="list-group">
 			<h3 class="list-group-item" v-for="(form, index) in forms">

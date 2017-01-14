@@ -27,12 +27,14 @@ yum install git-all
 git config --global color.ui true
 git config --global user.name "Kylie Minogue"
 git config --global user.email "kylie@minogue.net"
-git config --global core.editor "nano"
+git config --global core.editor nano
 
 cd path/to/fcms
 git init
 git add .
 git commit
 
-git add origin https://github.com/userName/repoName.git
+create a repository on github.com or bitbucket.org etc.
+git remote add origin https://github.com/workingmatt/nodejs-vue-form-xml.git
 git push -u origin master
+
