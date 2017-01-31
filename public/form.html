@@ -19,7 +19,7 @@
 	<div class="col-md-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-			Enter details for xml file
+			Enter details for xml file {{index+1}}
 			</div>
 			<div class="panel-body">
 				Various text fields must be completed<br><br>
@@ -32,7 +32,7 @@
 		<div class="panel panel-default">
 			<p>List of items: <span class="glyphicon glyphicon-plus"></span></p>
 			<div class="list-group">
-				<p class="list-group-item" v-for="(formElem,idx) in formArray"><button v-on:click="editRow(idx)">Edit</button>{{formElem.title}} : {{formElem.value}}
+				<p class="list-group-item" v-for="(formElem,idx) in formArray">{{idx+1}} <button v-on:click="editRow(idx)">Edit</button>{{formElem.title}} : {{formElem.value}}
 				</p>
 			</div>
 		</div>
