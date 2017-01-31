@@ -1,8 +1,11 @@
+
+INSTALL NODE.JS
 wget https://rpm.nodesource.com/pub_6.x/el/7/x86_64/nodejs-6.9.1-1nodesource.el7.centos.x86_64.rpm
 rpm -i ./nodejs-6.9.1-1nodesource.el7.centos.x86_64.rpm
 
-touch /etc/yum.repos.d/nginx.repo
-nano /etc/yum.repos.d/nginx.repo
+INSTALL NGINX (OPTIONAL)
+sudo touch /etc/yum.repos.d/nginx.repo
+sudo nano /etc/yum.repos.d/nginx.repo
 >> [nginx]
 >> name=nginx repo
 >> baseurl=http://nginx.org/packages/centos/7/$basearch/
@@ -13,16 +16,17 @@ yum repolist
 yum update
 yum install nginx (v1.10.2)
 
+nginx config file is /etc/nginx/nginx.conf
 
-app files in /matt/Desktop/fsmcWebApp
-think about using vue for app functions...
 
-create SSL certificate
+
+CREATE SSL CERTIFICATE
 
 openssl genrsa -out fcms-key.pem 1024
 openssl req -new -key fcms-key.pem -out certrequest.csr
 openssl x509 -req -in certrequest.csr -signkey fcms-key.pem -out fcms-cert.pem
 
+GIT CODE REPOSITORY
 yum install git-all
 git config --global color.ui true
 git config --global user.name "Kylie Minogue"
@@ -38,3 +42,30 @@ create a repository on github.com or bitbucket.org etc.
 git remote add origin https://github.com/workingmatt/nodejs-vue-form-xml.git
 git push -u origin master
 
+or 
+
+git clone https://github.com/workingmatt/nodejs-vue-form-xml.git
+
+BOOTSTRAP V3.3.7
+getbootstrap.com/getting-started/#download
+https://github.com/twbs/bootstrap/download/v3.3.7/bootstrap-3.3.7-dist.zip
+Unarchive the folder, move to code public (nodejs-vue-form-xml/public) and rename to bootstrap
+
+NODE SERVER APPLICATION
+On the server:
+npm install
+npm run start
+Move node_modules/vue and node_modules/vue-resource to public
+
+BROWSER
+127.0.0.1:3000
+
+Remote Server Access
+In Mac, open terminal and type the following:
+ssh -p 22443 matt.maplest@dstl.scpgateway.uk
+If asked if OK to continue say yes
+Enter the password
+You will then see a command prompt on the server e.g. [matt.mapleston@dstl ~]$
+I can use sudo to get admin rights.
+
+For ftp use sftp with dstl.scpgateway.uk and port 22443 with you credentials.

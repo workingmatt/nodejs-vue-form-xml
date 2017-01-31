@@ -1,0 +1,4 @@
+public/
+*.pem
+*.csr
+node_modules/

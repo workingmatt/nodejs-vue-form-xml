@@ -7,7 +7,7 @@
 
 <body>
 
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="#"><span class="glyphicon glyphicon-plus"></span>Entry Form</a>
 		<a class="navbar-brand" href="#"><span class="glyphicon glyphicon-file"></span>XML Files</a>
@@ -16,31 +16,32 @@
 	</nav>
 
 	<div class="container" id="form">
-	<div class="col-sm-4">
+	<div class="col-md-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 			Enter details for xml file
 			</div>
 			<div class="panel-body">
-			Various text fields must be completed
-			<input class="form-control" placeholder="text1" v-model="form.text1">
-			<button class="btn btn-primary" v-on:click="addForm">Submit</button>
+				Various text fields must be completed<br><br>
+				Title: <input class="form-control" v-model="form.title">
+				Value: <input class="form-control" v-model="form.value">
+				<button class="btn btn-primary" v-on:click="addForm(index)">Submit</button>
 			</div>
 		</div>
-		<div>
-			<p>Here: <span class="glyphicon glyphicon-plus"></span></p>
-		</div>
-		<div class="list-group">
-			<h3 class="list-group-item" v-for="(form, index) in forms">
-			{{ form.text1 }}
-			</h3>
+		
+		<div class="panel panel-default">
+			<p>List of items: <span class="glyphicon glyphicon-plus"></span></p>
+			<div class="list-group">
+				<p class="list-group-item" v-for="(formElem,idx) in formArray"><button v-on:click="editRow(idx)">Edit</button>{{formElem.title}} : {{formElem.value}}
+				</p>
+			</div>
 		</div>
 	</div>
 	</div>
 
 <!-- JS -->
-<script src="node_modules/vue/dist/vue.js"></script>
-<script src="node_modules/vue-resource/dist/vue-resource.js"></script>
+<script src="vue/dist/vue.js"></script>
+<script src="vue-resource/dist/vue-resource.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

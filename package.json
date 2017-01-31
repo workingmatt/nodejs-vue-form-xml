@@ -1,19 +1,18 @@
 {
-	"name":"FCMS-Web-App",
-	"version":"0.0.1",
-	"description":"testPage",
-	"author":"Matt Mapleston",
-	"scripts": {
-		"start": "node server",
-		"watch": "nodemon server"
-	},
-	"dependencies": {
-		"express": "",
-		"ejs": "",
-		"vue": "",
-		"vue-resource": "",
-		"body-parser": "",
-		"nodemon": ""
-
-	}
+  "name": "FCMS-Web-App",
+  "version": "0.0.1",
+  "description": "testPage",
+  "author": "Matt Mapleston",
+  "scripts": {
+    "start": "node server",
+    "watch": "nodemon server"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "ejs": "^2.5.5",
+    "express": "^4.14.0",
+    "nodemon": "^1.11.0",
+    "vue": "^2.1.10",
+    "vue-resource": "^1.0.3"
+  }
 }
