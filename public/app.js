@@ -5,7 +5,7 @@ new Vue({
 
 	data: {
 		form: { title: '', value: '' },
-		formArray: [],
+		allForms: [],
 		index: 0
 	},
 
@@ -16,20 +16,30 @@ new Vue({
 	methods: {
 		addForm: function(index){
 			if(this.form.value){
-				var tempForm = {};
-				tempForm.title = this.form.title;
-				tempForm.value = this.form.value;
-				this.formArray[this.index]=tempForm;
-
-				console.log('Index: '+index+', Title: '+this.formArray[this.index].title+', arrayLen: '+this.formArray.length);
-				this.index = this.formArray.length;
+				this.allForms[index]=this.form;
+				for (i=0;i<this.allForms.length;i++){
+					console.log('Index: '+i+' Title: '+this.allForms[i].title+' Value: '+this.allForms[i].value);
+				}
+				this.form = {title: '', value: ''};
+				this.index = this.allForms.length;
+				this.$http.post('/post');
 			}
 		},
-		editRow: function(index){
+
+		editForm: function(index){
 			console.log('Edit index: '+index);
-			this.form.title = this.formArray[index].title;
-			this.form.value = this.formArray[index].value;
+			this.form.title = this.allForms[index].title;
+			this.form.value = this.allForms[index].value;
 			this.index = index;
+		},
+
+		deleteForm: function(index){
+			if(index>-1){
+				if(confirm('Are you sure you want to delete '+this.allForms[index].title)){
+					this.allForms.splice(index,1);
+					this.index=this.allForms.length;
+				}
+			}
 		}
 	}
 
