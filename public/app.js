@@ -4,9 +4,21 @@ new Vue({
 	el: '#form',
 
 	data: {
-		form: { title: '', value: '' },
 		allForms: [],
-		index: 0
+		index: 0,
+		form: { title: '', value: '', selectedPlatform: 'None', selectedFreq:['None']},
+		optionsPlatform: [
+			{text:'Choose platform',value:'None'},
+			{text:'Type45',value:'Type45'},
+			{text:'Warrior',value:'Warrior'},
+			{text:'Lynx',value:'Lynx'},
+			{text:'Typhoon',value:'Typhoon'}],
+		optionsFrequency: [
+			{text:'Choose frequency',value:'None'},
+			{text:'VHF',value:'VHF'},
+			{text:'UHF',value:'UHF'},
+			{text:'GHF',value:'GHF'}
+		]
 	},
 
 	ready: function(){
@@ -18,11 +30,23 @@ new Vue({
 			if(this.form.value){
 				this.allForms[index]=this.form;
 				for (i=0;i<this.allForms.length;i++){
-					console.log('Index: '+i+' Title: '+this.allForms[i].title+' Value: '+this.allForms[i].value);
+					console.log('Index: '+i+
+						' Title: '+this.allForms[i].title+
+						' Value: '+this.allForms[i].value+
+						' Platform: '+this.allForms[i].selectedPlatform+
+						' Frequency: '+this.allForms[i].selectedFreq);
 				}
-				this.form = {title: '', value: ''};
+
+				var msg = {
+					title:this.form.title,
+					value:this.form.value,
+					selectedPlatform:this.allForms[index].selectedPlatform,
+					selectedFreq:this.allForms[index].selectedFreq
+					};
+				this.$http.post('/post', msg);
+
+				this.form = {title: '', value: '', selectedPlatform: 'None', selectedFreq: []};
 				this.index = this.allForms.length;
-				this.$http.post('/post');
 			}
 		},
 
@@ -30,6 +54,8 @@ new Vue({
 			console.log('Edit index: '+index);
 			this.form.title = this.allForms[index].title;
 			this.form.value = this.allForms[index].value;
+			this.form.selectedPlatform = this.allForms[index].selectedPlatform;
+			this.form.selectedFreq = this.allForms[index].selectedFreq;
 			this.index = index;
 		},
 
