@@ -6,19 +6,61 @@ new Vue({
 	data: {
 		allForms: [],
 		index: 0,
-		form: { title: '', value: '', selectedPlatform: 'None', selectedFreq:['None']},
-		optionsPlatform: [
-			{text:'Choose platform',value:'None'},
-			{text:'Type45',value:'Type45'},
-			{text:'Warrior',value:'Warrior'},
-			{text:'Lynx',value:'Lynx'},
-			{text:'Typhoon',value:'Typhoon'}],
-		optionsFrequency: [
-			{text:'Choose frequency',value:'None'},
-			{text:'VHF',value:'VHF'},
-			{text:'UHF',value:'UHF'},
-			{text:'GHF',value:'GHF'}
+		form: {
+			Platform: '', 
+			Subsystem: '',
+			FunctionalArea:'',
+			LayerPhysical:'',
+			LayerApplication:'',
+			LayerIntegration:'',
+			MadeOf:'',
+			PartOf:'',
+			AdjacentFrom:'',
+			AdjacentToName:'',
+			AdjacentToFunction:''
+		},
+
+		optionsFunctionalArea: [
+			{text:''},
+			{text:'Sensor Systems'},
+			{text:'Stores/Weapons'},
+			{text:'ESM & Defensive Aids'},
+			{text:'Navigation'},
+			{text:'Communications'},
+			{text:'Mission Computing'},
+			{text:'External Interfaces'},
+			{text:'Display/Operator Interfaces'},
+			{text:'Mission Support Systems'},
+			{text:'Engineering Support Systems'}
+		],
+
+		optionsLayerPhysical: [
+			{text:'Sub-System Processing'},
+			{text:'LANS, Databases & Servers'},
+			{text:'Interfaces, User Terminals, Displays & Applications'},
+			{text:'External Support Systems'}
+		],
+
+		optionsLayerApplication: [
+			{text:'Client Application'},
+			{text:'Server Application'},
+			{text:'External Application'}
+		],
+
+		optionsLayerIntegration: [
+			{text:'Physical Layer'},
+			{text:'Virtualisation Layer'},
+			{text:'Operating System Layer'},
+			{text:'Application Layer'}
+		],
+
+		optionsAdjacentToFunction: [
+			{text:'command'},
+			{text:'status'},
+			{text:'data'},
+			{text:'not defined'}
 		]
+
 	},
 
 	ready: function(){
@@ -27,35 +69,68 @@ new Vue({
 
 	methods: {
 		addForm: function(index){
-			if(this.form.value){
-				this.allForms[index]=this.form;
-				for (i=0;i<this.allForms.length;i++){
-					console.log('Index: '+i+
-						' Title: '+this.allForms[i].title+
-						' Value: '+this.allForms[i].value+
-						' Platform: '+this.allForms[i].selectedPlatform+
-						' Frequency: '+this.allForms[i].selectedFreq);
-				}
+			this.allForms[index]=this.form;
 
-				var msg = {
-					title:this.form.title,
-					value:this.form.value,
-					selectedPlatform:this.allForms[index].selectedPlatform,
-					selectedFreq:this.allForms[index].selectedFreq
-					};
-				this.$http.post('/post', msg);
+			var msg = {
+				Platform:this.form.Platform,
+				Subsystem:this.form.Subsystem,
+				FunctionalArea:this.allForms[index].FunctionalArea,
+				LayerPhysical:this.allForms[index].LayerPhysical,
+				LayerApplication:this.allForms[index].LayerApplication,
+				LayerIntegration:this.allForms[index].LayerIntegration,
+				MadeOf:this.allForms[index].MadeOf,
+				PartOf:this.allForms[index].PartOf,
+				AdjacentFrom:this.allForms[index].AdjacentFrom,
+				AdjacentToName:this.allForms[index].AdjacentToName,
+				AdjacentToFunction:this.allForms[index].AdjacentToFunction
+				};
 
-				this.form = {title: '', value: '', selectedPlatform: 'None', selectedFreq: []};
-				this.index = this.allForms.length;
+			this.$http.post('/post', msg);
+			this.form = {
+				Platform: '',
+				Subsystem: '',
+				FunctionalArea: '',
+				LayerPhysical: '',
+				LayerApplication:'',
+				LayerIntegration:'',
+				MadeOf:'',
+				PartOf:'',
+				AdjacentFrom:'',
+				AdjacentToName:'',
+				AdjacentToFunction:''
+			};
+			this.index = this.allForms.length;
+
+			for (i=0;i<index;i++){
+				console.log('Index: '+i+
+					' Platform: '+this.allForms[i].Platform+
+					' Subsystem: '+this.allForms[i].Subsystem+
+					' FunctionalArea: '+this.allForms[i].FunctionalArea+
+					' LayerPhysical: '+this.allForms[i].LayerPhysical+
+					' LayerApplication: '+this.allForms[i].LayerApplication+
+					' LayerIntegration: '+this.allForms[i].LayerIntegration+
+					' MadeOf: '+this.allForms[i].MadeOf+
+					' PartOf: '+this.allForms[i].PartOf+
+					' AdjacentFrom: '+this.allForms[i].AdjacentFrom+
+					' AdjacentToName: '+this.allForms[i].AdjacentToName+
+					' AdjacentToFunction: '+this.allForms[i].AdjacentToFunction
+					);
 			}
 		},
 
 		editForm: function(index){
-			console.log('Edit index: '+index);
-			this.form.title = this.allForms[index].title;
-			this.form.value = this.allForms[index].value;
-			this.form.selectedPlatform = this.allForms[index].selectedPlatform;
-			this.form.selectedFreq = this.allForms[index].selectedFreq;
+			this.form.Platform = this.allForms[index].Platform;
+			this.form.Subsystem = this.allForms[index].Subsystem;
+			this.form.FunctionalArea = this.allForms[index].FunctionalArea;
+			this.form.LayerPhysical = this.allForms[index].LayerPhysical;
+			this.form.LayerApplication = this.allForms[index].LayerApplication;
+			this.form.LayerIntegration = this.allForms[index].LayerIntegration;
+			this.form.MadeOf = this.allForms[index].MadeOf
+			this.form.PartOf = this.allForms[index].PartOf
+			this.form.AdjacentFrom = this.allForms[index].AdjacentFrom
+			this.form.AdjacentToName = this.allForms[index].AdjacentToName
+			this.form.AdjacentToFunction = this.allForms[index].AdjacentToFunction
+
 			this.index = index;
 		},
 

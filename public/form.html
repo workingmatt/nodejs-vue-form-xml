@@ -26,35 +26,59 @@
 
 			<div class="panel-body">
 				Various text fields must be completed<br><br>
-				Title: <input class="form-control" v-model="form.title">
-				Value: <input class="form-control" v-model="form.value">
-				Platform:	<select v-model="form.selectedPlatform">
-								<option v-for="optionPlatform in optionsPlatform" v-bind:value="optionPlatform.value">
-								{{optionPlatform.text}}
-								</option>
-							</select>
+				Platform: <input class="form-control" v-model="form.Platform">
+				Subsystem: <input class="form-control" v-model="form.Subsystem">
+				Functional Area:	<select v-model="form.FunctionalArea">
+									<option v-for="optionFuncArea in optionsFunctionalArea" v-bind:value="optionFuncArea.text">
+										{{optionFuncArea.text}}
+									</option>
+									</select><br>
+				Physical Layer:		<select v-model="form.LayerPhysical">
+									<option v-for="optionLayerPhysical in optionsLayerPhysical" v-bind:value="optionLayerPhysical.text">
+										{{optionLayerPhysical.text}}
+									</option>
+									</select><br>
+				Application Layer:	<select v-model="form.LayerApplication">
+									<option v-for="optionLayerApplication in optionsLayerApplication" v-bind:value="optionLayerApplication.text">
+										{{optionLayerApplication.text}}
+									</option>
+									</select><br>
+				Integration Layer: 	<select v-model="form.LayerIntegration">
+									<option v-for="optionLayerIntegration in optionsLayerIntegration" v-bind:value="optionLayerIntegration.text">
+										{{optionLayerIntegration.text}}
+									</option>
+									</select><br>
+				Made Of: <input class="form-control" v-model="form.MadeOf">
+				Part Of: <input class="form-control" v-model="form.PartOf">
+				Adjacent To Name: <input class="form-control" v-model="form.AdjacentToName">
+				Adjacent To Function:	<select v-model="form.AdjacentToFunction">
+										<option v-for="optionAdjacentToFunction in optionsAdjacentToFunction" v-bind:value="optionAdjacentToFunction.text">
+										{{optionAdjacentToFunction.text}}
+										</option>
+										</select>
 
-				Freqs:	<select v-model="form.selectedFreq" multiple name="optionsFrequency[]">
-							<option v-for="optionFreq in optionsFrequency" v-bind:value="optionFreq.value">
-								{{optionFreq.text}}
-							</option>
-						</select>
+				Functional Areas: <select v-model="form.FunctionalArea">
+						<option v-for="optionFuncArea in optionsFunctionalArea" v-bind:value="optionFuncArea.text">
+						{{optionFuncArea.text}}
+						</option>
+					</select>
 				<br>
 				<button class="btn btn-secondary" v-on:click="addForm(index)">Add Field</button>
-				{{form.selectedFreq}}
 			</div>
 		</div>
 	</div>	
+<!--<select v-model="" multiple name="">-->
 
 	<div class="col-md-6">
 
 		<div class="panel panel-default">
+		<!-- TODO Keep local copies of each entry, then upload many at once when online-->
 			<p>List of items: <span class="glyphicon glyphicon-plus"></span></p>
-			<button class="btn btn-primary">Upload System Info</button>
+			<button class="btn btn-primary">Upload System Info (Not Connected)</button>
 			<div class="list-group">
 				<p class="list-group-item" v-for="(formElem,idx) in allForms">
-					{{idx}}
-					{{formElem.title}} : {{formElem.value}} : {{formElem.selectedPlatform}} : {{formElem.selectedFreq}}<br>
+					{{idx}} >> 
+					{{formElem.Platform}} : {{formElem.Subsystem}} : {{formElem.FunctionalArea}} : {{formElem.LayerPhysical}}:{{formElem.LayerApplication}}:{{formElem.LayerIntegration}}:{{formElem.MadeOf}}:{{formElem.PartOf}}:{{formElem.AdjacentFrom}}:{{formElem.AdjacentToName}}:{{formElem.AdjacentToFunction}}<br>
 					<button v-on:click="editForm(idx)">Edit</button>
 					<button class="btn btn-danger btn-sm" v-on:click="deleteForm(idx)">Delete</button>
 				</p>

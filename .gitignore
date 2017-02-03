@@ -3,4 +3,4 @@ public/
 *.csr
 node_modules/
 *.log
-
+xmlDetails.txt
