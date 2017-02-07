@@ -9,16 +9,26 @@ new Vue({
 		form: {
 			Platform: '', 
 			Subsystem: '',
+			Category: '',
 			FunctionalArea:'',
 			LayerPhysical:'',
 			LayerApplication:'',
 			LayerIntegration:'',
 			MadeOf:'',
+			array_madeOf:[],
 			PartOf:'',
+			array_partOf:[],
 			AdjacentFrom:'',
-			AdjacentToName:'',
-			AdjacentToFunction:''
+			array_adjFrom:[],
+			AdjacentTo:{name:'',function:''},
+			array_adjTo: []
 		},
+
+		optionsCategory: [
+			{text:''},
+			{text:'Physical'},
+			{text:'Application'}
+		],
 
 		optionsFunctionalArea: [
 			{text:''},
@@ -35,6 +45,7 @@ new Vue({
 		],
 
 		optionsLayerPhysical: [
+			{text:''},
 			{text:'Sub-System Processing'},
 			{text:'LANS, Databases & Servers'},
 			{text:'Interfaces, User Terminals, Displays & Applications'},
@@ -42,12 +53,14 @@ new Vue({
 		],
 
 		optionsLayerApplication: [
+			{text:''},
 			{text:'Client Application'},
 			{text:'Server Application'},
 			{text:'External Application'}
 		],
 
 		optionsLayerIntegration: [
+			{text:''},
 			{text:'Physical Layer'},
 			{text:'Virtualisation Layer'},
 			{text:'Operating System Layer'},
@@ -55,6 +68,7 @@ new Vue({
 		],
 
 		optionsAdjacentToFunction: [
+			{text:''},
 			{text:'command'},
 			{text:'status'},
 			{text:'data'},
@@ -68,77 +82,94 @@ new Vue({
 	},
 
 	methods: {
-		addForm: function(index){
+		addAdjFrom: function(){
+			this.form.array_adjFrom.push(this.form.AdjacentFrom);
+			this.form.AdjacentFrom='';
+		},
+
+		addAdjTo: function(){
+			this.form.array_adjTo.push({name:this.form.AdjacentTo.name, function:this.form.AdjacentTo.function});
+			this.form.AdjacentTo.name = '';
+			this.form.AdjacentTo.function = '';
+			
+		},
+
+		addMadeOf: function(){
+			this.form.array_madeOf.push(this.form.MadeOf);
+			this.form.MadeOf='';
+		},
+
+		addPartOf: function(){
+			this.form.array_partOf.push(this.form.PartOf);
+			this.form.PartOf='';
+		},
+
+		submitForm: function(index){
 			this.allForms[index]=this.form;
 
 			var msg = {
 				Platform:this.form.Platform,
 				Subsystem:this.form.Subsystem,
+				Category:this.form.Category,
 				FunctionalArea:this.allForms[index].FunctionalArea,
 				LayerPhysical:this.allForms[index].LayerPhysical,
 				LayerApplication:this.allForms[index].LayerApplication,
 				LayerIntegration:this.allForms[index].LayerIntegration,
-				MadeOf:this.allForms[index].MadeOf,
-				PartOf:this.allForms[index].PartOf,
-				AdjacentFrom:this.allForms[index].AdjacentFrom,
-				AdjacentToName:this.allForms[index].AdjacentToName,
-				AdjacentToFunction:this.allForms[index].AdjacentToFunction
+				MadeOf:JSON.stringify(this.allForms[index].array_madeOf),
+				PartOf:JSON.stringify(this.allForms[index].array_partOf),
+				AdjacentFrom:JSON.stringify(this.allForms[index].array_adjFrom),
+				AdjacentTo:JSON.stringify(this.allForms[index].array_adjTo)
 				};
 
 			this.$http.post('/post', msg);
 			this.form = {
 				Platform: '',
 				Subsystem: '',
+				Category: '',
 				FunctionalArea: '',
 				LayerPhysical: '',
 				LayerApplication:'',
 				LayerIntegration:'',
 				MadeOf:'',
+				array_madeOf:[],
 				PartOf:'',
+				array_partOf:[],
 				AdjacentFrom:'',
-				AdjacentToName:'',
-				AdjacentToFunction:''
+				array_adjFrom:[],
+				AdjacentTo:{name:'',function:''},
+				array_adjTo:[]
 			};
-			this.index = this.allForms.length;
 
-			for (i=0;i<index;i++){
-				console.log('Index: '+i+
-					' Platform: '+this.allForms[i].Platform+
-					' Subsystem: '+this.allForms[i].Subsystem+
-					' FunctionalArea: '+this.allForms[i].FunctionalArea+
-					' LayerPhysical: '+this.allForms[i].LayerPhysical+
-					' LayerApplication: '+this.allForms[i].LayerApplication+
-					' LayerIntegration: '+this.allForms[i].LayerIntegration+
-					' MadeOf: '+this.allForms[i].MadeOf+
-					' PartOf: '+this.allForms[i].PartOf+
-					' AdjacentFrom: '+this.allForms[i].AdjacentFrom+
-					' AdjacentToName: '+this.allForms[i].AdjacentToName+
-					' AdjacentToFunction: '+this.allForms[i].AdjacentToFunction
-					);
-			}
+			this.index = this.allForms.length;
 		},
 
 		editForm: function(index){
 			this.form.Platform = this.allForms[index].Platform;
 			this.form.Subsystem = this.allForms[index].Subsystem;
+			this.form.Category = this.allForms[index].Category;
 			this.form.FunctionalArea = this.allForms[index].FunctionalArea;
 			this.form.LayerPhysical = this.allForms[index].LayerPhysical;
 			this.form.LayerApplication = this.allForms[index].LayerApplication;
 			this.form.LayerIntegration = this.allForms[index].LayerIntegration;
-			this.form.MadeOf = this.allForms[index].MadeOf
-			this.form.PartOf = this.allForms[index].PartOf
-			this.form.AdjacentFrom = this.allForms[index].AdjacentFrom
-			this.form.AdjacentToName = this.allForms[index].AdjacentToName
-			this.form.AdjacentToFunction = this.allForms[index].AdjacentToFunction
+			this.form.MadeOf = this.allForms[index].MadeOf;
+			this.form.PartOf = this.allForms[index].PartOf;
+			this.form.AdjacentFrom = this.allForms[index].AdjacentFrom;
+			this.form.AdjacentTo.name = this.allForms[index].AdjacentTo.name;
+			this.form.AdjacentTo.function = this.allForms[index].AdjacentTo.function;
 
 			this.index = index;
 		},
 
-		deleteForm: function(index){
+		deleteElement: function(type,index){
 			if(index>-1){
-				if(confirm('Are you sure you want to delete '+this.allForms[index].title)){
-					this.allForms.splice(index,1);
-					this.index=this.allForms.length;
+				if(confirm('Are you sure you want to delete that?')){
+					if (type=='madeof'){
+						this.form.array_madeOf.splice(index,1);
+					}else if (type=='partof'){
+						this.form.array_partOf.splice(index,1);
+					}else{
+						console.log('Error in type of thing to delete');
+					}
 				}
 			}
 		}

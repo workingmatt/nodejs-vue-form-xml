@@ -18,71 +18,111 @@
 	<div class="container" id="form">
 	<div class="col-md-6">
 		<div class="panel panel-default">
-			<div class="panel-heading">
-			Enter details for xml file {{index+1}}
-			</div>
-
-
-
+			<div class="panel-heading">Enter details for xml file</div>
 			<div class="panel-body">
 				Various text fields must be completed<br><br>
 				Platform: <input class="form-control" v-model="form.Platform">
 				Subsystem: <input class="form-control" v-model="form.Subsystem">
-				Functional Area:	<select v-model="form.FunctionalArea">
+				Category: <br>		<select v-model="form.Category">
+									<option v-for="optionCategory in optionsCategory" v-bind:value="optionCategory.text">
+										{{optionCategory.text}}
+									</option>
+									</select><br>
+				Functional Area:<br>
+									<select v-model="form.FunctionalArea">
 									<option v-for="optionFuncArea in optionsFunctionalArea" v-bind:value="optionFuncArea.text">
 										{{optionFuncArea.text}}
 									</option>
 									</select><br>
-				Physical Layer:		<select v-model="form.LayerPhysical">
+				Physical Layer:<br>
+									<select v-model="form.LayerPhysical">
 									<option v-for="optionLayerPhysical in optionsLayerPhysical" v-bind:value="optionLayerPhysical.text">
 										{{optionLayerPhysical.text}}
 									</option>
 									</select><br>
-				Application Layer:	<select v-model="form.LayerApplication">
+				Application Layer:<br>
+									<select v-model="form.LayerApplication">
 									<option v-for="optionLayerApplication in optionsLayerApplication" v-bind:value="optionLayerApplication.text">
 										{{optionLayerApplication.text}}
 									</option>
 									</select><br>
-				Integration Layer: 	<select v-model="form.LayerIntegration">
+				Integration Layer:<br>
+								 	<select v-model="form.LayerIntegration">
 									<option v-for="optionLayerIntegration in optionsLayerIntegration" v-bind:value="optionLayerIntegration.text">
 										{{optionLayerIntegration.text}}
 									</option>
 									</select><br>
-				Made Of: <input class="form-control" v-model="form.MadeOf">
-				Part Of: <input class="form-control" v-model="form.PartOf">
-				Adjacent To Name: <input class="form-control" v-model="form.AdjacentToName">
-				Adjacent To Function:	<select v-model="form.AdjacentToFunction">
-										<option v-for="optionAdjacentToFunction in optionsAdjacentToFunction" v-bind:value="optionAdjacentToFunction.text">
-										{{optionAdjacentToFunction.text}}
-										</option>
-										</select>
-
-				Functional Areas: <select v-model="form.FunctionalArea">
-						<option v-for="optionFuncArea in optionsFunctionalArea" v-bind:value="optionFuncArea.text">
-						{{optionFuncArea.text}}
-						</option>
-					</select>
-				<br>
-				<button class="btn btn-secondary" v-on:click="addForm(index)">Add Field</button>
 			</div>
 		</div>
-	</div>	
-<!--<select v-model="" multiple name="">-->
+		<div class="panel panel-default">
+			<div class="panel-heading">Enter Made Of</div>
+			<div class="panel-body">
+				Made Of:<br>		<input class="form-control"
+									v-model="form.MadeOf">
+									<button class="btn btn-secondary" v-on:click="addMadeOf()">Add Made Of</button>
+									<div class="list-group">
+										<p class="list-group-item" v-for="(item,idx) in form.array_madeOf">{{item}}
+										<button class="btn btn-danger btn-sm" v-on:click="deleteElement('madeof',idx)">Delete</button></p>
+									</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">Enter Part Of</div>
+			<div class="panel-body">
+				Part Of:<br>		<input class="form-control" 
+									v-model="form.PartOf">
+									<button class="btn btn-secondary" v-on:click="addPartOf()">Add Part Of</button>
+									<div class="list-group">
+										<p class="list-group-item" v-for="(item,idx) in form.array_partOf">{{item}}
+										<button class="btn btn-danger btn-sm" v-on:click="deleteElement('partof',idx)">Delete</button></p>
+									</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="col-md-6">
-
 		<div class="panel panel-default">
-		<!-- TODO Keep local copies of each entry, then upload many at once when online-->
-			<p>List of items: <span class="glyphicon glyphicon-plus"></span></p>
-			<button class="btn btn-primary">Upload System Info (Not Connected)</button>
-			<div class="list-group">
-				<p class="list-group-item" v-for="(formElem,idx) in allForms">
-					{{idx}} >> 
-					{{formElem.Platform}} : {{formElem.Subsystem}} : {{formElem.FunctionalArea}} : {{formElem.LayerPhysical}}:{{formElem.LayerApplication}}:{{formElem.LayerIntegration}}:{{formElem.MadeOf}}:{{formElem.PartOf}}:{{formElem.AdjacentFrom}}:{{formElem.AdjacentToName}}:{{formElem.AdjacentToFunction}}<br>
-					<button v-on:click="editForm(idx)">Edit</button>
-					<button class="btn btn-danger btn-sm" v-on:click="deleteForm(idx)">Delete</button>
-				</p>
+			<div class="panel-heading">Enter things from adjacents</div>
+			<div class="panel-body">
+				Adjacent From:<br>	<input class="form-control" 
+									v-model="form.AdjacentFrom">
+				<button class="btn btn-secondary" v-on:click="addAdjFrom()">Add Adjacent From</button>
+				<div class="list-group">
+					<p class="list-group-item" v-for="(adj,idx) in form.array_adjFrom">
+					{{adj}}
+					</p>
+				</div>
 			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">Enter things to adjacents</div>
+			<div class="panel-body">
+				Adjacent To Name:<br>
+									<input class="form-control" v-model="form.AdjacentTo.name">
+				Adjacent To Function:<br>
+									<select v-model="form.AdjacentTo.function">
+									<option v-for="optionAdjacentToFunction in optionsAdjacentToFunction" v-bind:value="optionAdjacentToFunction.text">
+									{{optionAdjacentToFunction.text}}
+									</option>
+									</select>
+				<button class="btn btn-secondary" v-on:click="addAdjTo()">Add Adjacent To</button>
+				<div class="list-group">
+					<p class="list-group-item" v-for="(adj,idx) in form.array_adjTo">
+					{{adj.name}} : {{adj.function}}
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+				<br>
+				<button class="btn btn-secondary" v-on:click="submitForm(index)">Add Field</button>
+<!--<select v-model="" multiple name="">-->
+
+		<!-- TODO Keep local copies of each entry, then upload many at once when online
+			<p>List of items: <span class="glyphicon glyphicon-plus"></span></p>
+			<button class="btn btn-primary">Upload System Info (Not Connected)</button>-->
+			
 		</div>
 	</div>
 	</div>

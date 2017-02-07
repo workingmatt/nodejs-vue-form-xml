@@ -27,6 +27,8 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname+'/public');
 app.engine('html', require('ejs').renderFile);
 
+var fileJson = 'Nothing Yet';
+
 require('./public/routes.js')(app);
 
 

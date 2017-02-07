@@ -1,3 +1,4 @@
+var helpers = require('./helpers.js');
 module.exports = function(app){
 
 	app.get('/', function(req,res){
@@ -10,7 +11,9 @@ module.exports = function(app){
 
 	app.post('/post', function (req, res){
 		console.log('Rxd post');
-		console.log(req.body);
+
+		//TODO Convert the returned Json into an XML file.
+		helpers.processJsonToAveriti(req.body);
 	});
 
 }
