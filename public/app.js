@@ -143,7 +143,7 @@ new Vue({
 			this.index = this.allForms.length;
 		},
 
-		editForm: function(index){
+		editFile: function(index){
 			this.form.Platform = this.allForms[index].Platform;
 			this.form.Subsystem = this.allForms[index].Subsystem;
 			this.form.Category = this.allForms[index].Category;
@@ -151,23 +151,25 @@ new Vue({
 			this.form.LayerPhysical = this.allForms[index].LayerPhysical;
 			this.form.LayerApplication = this.allForms[index].LayerApplication;
 			this.form.LayerIntegration = this.allForms[index].LayerIntegration;
-			this.form.MadeOf = this.allForms[index].MadeOf;
-			this.form.PartOf = this.allForms[index].PartOf;
-			this.form.AdjacentFrom = this.allForms[index].AdjacentFrom;
-			this.form.AdjacentTo.name = this.allForms[index].AdjacentTo.name;
-			this.form.AdjacentTo.function = this.allForms[index].AdjacentTo.function;
-
+			this.form.array_madeOf = this.allForms[index].array_madeOf;
+			this.form.array_partOf = this.allForms[index].array_partOf;
+			this.form.array_adjFrom = this.allForms[index].array_adjFrom;
+			this.form.array_adjTo = this.allForms[index].array_adjTo;
 			this.index = index;
 		},
 
 		deleteElement: function(type,index){
 			if(index>-1){
 				if(confirm('Are you sure you want to delete that?')){
-					if (type=='madeof'){
+					if (type=='madeOf'){
 						this.form.array_madeOf.splice(index,1);
-					}else if (type=='partof'){
+					}else if (type=='partOf'){
 						this.form.array_partOf.splice(index,1);
-					}else{
+					}else if (type=='adjacentTo'){
+						this.form.array_adjTo.splice(index,1);
+					} else if (type=='adjacentFrom'){
+						this.form.array_adjFrom.splice(index,1);
+					} else {
 						console.log('Error in type of thing to delete');
 					}
 				}

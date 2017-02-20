@@ -13,7 +13,9 @@ module.exports = function(app){
 		console.log('Rxd post');
 
 		//TODO Convert the returned Json into an XML file.
-		helpers.processJsonToAveriti(req.body);
+		console.log('doing');
+		console.log(helpers.processJsonToAveriti(req.body));
+		console.log('done');
 	});
 
 }

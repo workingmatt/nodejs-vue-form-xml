@@ -59,10 +59,10 @@
 			<div class="panel-body">
 				Made Of:<br>		<input class="form-control"
 									v-model="form.MadeOf">
-									<button class="btn btn-secondary" v-on:click="addMadeOf()">Add Made Of</button>
+									<button class="btn btn-primary" v-on:click="addMadeOf()">Add Made Of</button>
 									<div class="list-group">
 										<p class="list-group-item" v-for="(item,idx) in form.array_madeOf">{{item}}
-										<button class="btn btn-danger btn-sm" v-on:click="deleteElement('madeof',idx)">Delete</button></p>
+										<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('madeOf',idx)">Delete</button></p>
 									</div>
 			</div>
 		</div>
@@ -71,10 +71,10 @@
 			<div class="panel-body">
 				Part Of:<br>		<input class="form-control" 
 									v-model="form.PartOf">
-									<button class="btn btn-secondary" v-on:click="addPartOf()">Add Part Of</button>
+									<button class="btn btn-primary" v-on:click="addPartOf()">Add Part Of</button>
 									<div class="list-group">
 										<p class="list-group-item" v-for="(item,idx) in form.array_partOf">{{item}}
-										<button class="btn btn-danger btn-sm" v-on:click="deleteElement('partof',idx)">Delete</button></p>
+										<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('partOf',idx)">Delete</button></p>
 									</div>
 			</div>
 		</div>
@@ -86,10 +86,11 @@
 			<div class="panel-body">
 				Adjacent From:<br>	<input class="form-control" 
 									v-model="form.AdjacentFrom">
-				<button class="btn btn-secondary" v-on:click="addAdjFrom()">Add Adjacent From</button>
+				<button class="btn btn-primary" v-on:click="addAdjFrom()">Add Adjacent From</button>
 				<div class="list-group">
 					<p class="list-group-item" v-for="(adj,idx) in form.array_adjFrom">
 					{{adj}}
+					<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('adjacentFrom',idx)">Delete</button></p>
 					</p>
 				</div>
 			</div>
@@ -105,10 +106,11 @@
 									{{optionAdjacentToFunction.text}}
 									</option>
 									</select>
-				<button class="btn btn-secondary" v-on:click="addAdjTo()">Add Adjacent To</button>
+				<button class="btn btn-primary" v-on:click="addAdjTo()">Add Adjacent To</button>
 				<div class="list-group">
 					<p class="list-group-item" v-for="(adj,idx) in form.array_adjTo">
 					{{adj.name}} : {{adj.function}}
+					<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('adjacentTo',idx)">Delete</button></p>
 					</p>
 				</div>
 			</div>
@@ -116,7 +118,7 @@
 	</div>
 
 				<br>
-				<button class="btn btn-secondary" v-on:click="submitForm(index)">Add Field</button>
+				<button class="btn btn-danger" v-on:click="submitForm(index)">Add Field</button>
 <!--<select v-model="" multiple name="">-->
 
 		<!-- TODO Keep local copies of each entry, then upload many at once when online
