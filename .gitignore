@@ -1,6 +1,9 @@
-public/
 *.pem
 *.csr
 node_modules/
 *.log
 xmlDetails.txt
+public/bootstrap
+public/vue-resource
+public/vue
+public/xmlfiles
