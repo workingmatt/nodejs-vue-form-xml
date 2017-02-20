@@ -121,7 +121,7 @@ new Vue({
 				AdjacentTo:JSON.stringify(this.allForms[index].array_adjTo)
 				};
 
-			this.$http.post('/post', msg);
+			this.$http.post('/forms', msg);
 			this.form = {
 				Platform: '',
 				Subsystem: '',

@@ -9,13 +9,18 @@ module.exports = function(app){
 		res.render('form.html');
 	});
 
-	app.post('/post', function (req, res){
+	app.post('/forms', function (req, res){
 		console.log('Rxd post');
 
-		//TODO Convert the returned Json into an XML file.
-		console.log('doing');
-		console.log(helpers.processJsonToAveriti(req.body));
-		console.log('done');
+		var filename = '../xmlfiles/'+req.body.Platform +'_'+req.body.Subsystem+'.xml';
+		helpers.writeXmlFile(helpers.processJsonToAveriti(req.body), filename);
+
+// TODO Try async to send back result of file write to client with 
+//		res.send(answer); here and the following in app.js (client side)
+//		this.$http.post('/forms', msg).then(function(response){
+//				console.log('***');
+//				console.log(response.body);
+//			});
 	});
 
 }
