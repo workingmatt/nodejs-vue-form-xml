@@ -33,13 +33,13 @@ new Vue({
 		optionsFunctionalArea: [
 			{text:''},
 			{text:'Sensor Systems'},
-			{text:'Stores/Weapons'},
-			{text:'ESM & Defensive Aids'},
+			{text:'Stores or Weapons'},
+			{text:'ESM and Defensive Aids'},
 			{text:'Navigation'},
 			{text:'Communications'},
 			{text:'Mission Computing'},
 			{text:'External Interfaces'},
-			{text:'Display/Operator Interfaces'},
+			{text:'Display or Operator Interfaces'},
 			{text:'Mission Support Systems'},
 			{text:'Engineering Support Systems'}
 		],
@@ -47,8 +47,8 @@ new Vue({
 		optionsLayerPhysical: [
 			{text:''},
 			{text:'Sub-System Processing'},
-			{text:'LANS, Databases & Servers'},
-			{text:'Interfaces, User Terminals, Displays & Applications'},
+			{text:'LANS, Databases and Servers'},
+			{text:'Interfaces, User Terminals, Displays and Applications'},
 			{text:'External Support Systems'}
 		],
 
@@ -69,10 +69,10 @@ new Vue({
 
 		optionsAdjacentToFunction: [
 			{text:''},
-			{text:'command'},
-			{text:'status'},
-			{text:'data'},
-			{text:'not defined'}
+			{text:'Command'},
+			{text:'Status'},
+			{text:'Data'},
+			{text:'Not Defined'}
 		]
 
 	},
