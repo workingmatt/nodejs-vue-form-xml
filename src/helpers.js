@@ -4,6 +4,21 @@ var fs = require('fs');
 
 module.exports={
 
+sendFileList: function(res){
+	var path = "../xmlfiles";
+	fs.readdir(path,'utf8',function(err,files){
+		if(err){
+			console.log("getFileList Error:");
+			console.log(err);
+			return err;
+		}else{
+			console.log('Sending file list');
+			res.send(files);
+			return;
+		}
+	});
+},
+
 writeXmlFile: function(xmlString,filename) {
 	console.log('adding xmlfiles/'+filename);
 	fs.writeFile(filename, xmlString, {flag:'wx'}, function (err){

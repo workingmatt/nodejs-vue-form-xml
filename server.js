@@ -29,7 +29,7 @@ app.engine('html', require('ejs').renderFile);
 
 var fileJson = 'Nothing Yet';
 
-require('./public/routes.js')(app);
+require('./src/routes.js')(app);
 
 
 var server = https.createServer(httpsOptions, app);

@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="col-md-12" id="fileExplorer">
+<p>Path: {{path}}</p>
+<div class="list-group">
+	<p class="list-group-item" v-for="(file,idx) in files">{{file}}</p>
+</div>
+<button class="btn btn-secondary btn-sm" v-on:click="refreshButtonClicked()">Refresh</button>
+<a class="btn btn-secondary btn-sm" href="/forms">New</a>
+
+<h3><a href="forms">Form</a></h3>
+</div>
+<!-- JS -->
+<script src="vue/dist/vue.js"></script>
+<script src="vue-resource/dist/vue-resource.js"></script>
+<script src="fileExplorer.js"></script>
+</body>
+</html>

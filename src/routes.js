@@ -1,12 +1,17 @@
 var helpers = require('./helpers.js');
+
 module.exports = function(app){
 
 	app.get('/', function(req,res){
-		res.render('index.html');
+		res.render('fileExplorer.html');
 	});
 
 	app.get('/forms', function(req,res){
 		res.render('form.html');
+	});
+
+	app.post('/', function(req,res){
+		helpers.sendFileList(res);
 	});
 
 	app.post('/forms', function (req, res){

@@ -24,7 +24,7 @@ CREATE SSL CERTIFICATE
 
 openssl genrsa -out fcms-key.pem 1024
 openssl req -new -key fcms-key.pem -out certrequest.csr
-openssl x509 -req -in certrequest.csr -signkey fcms-key.pem -out fcms-cert.pem
+openssl x509 -req -in certrequest.csr -signkey fcms-key.pem -out fcms-cert.pe
 
 GIT CODE REPOSITORY
 yum install git-all
@@ -69,3 +69,21 @@ You will then see a command prompt on the server e.g. [matt.mapleston@dstl ~]$
 I can use sudo to get admin rights.
 
 For ftp use sftp with dstl.scpgateway.uk and port 22443 with you credentials.
+
+FIREWALL
+https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7
+
+sudo firewall-cmd --list-all
+sudo firewall-cmd --state
+
+firewall services are configured by xml files in /usr/lib/firewalld/services/
+
+It wasn't the firewall it's sudo setenforce permissive (TODO make it permanent)
+
+PM2
+sudo pm2 startup
+sudo pm2 start server.js
+sudo pm2 save
+
+sudo is important, different users have different pm2s.
+NB there's a matt.mapleston pm2
