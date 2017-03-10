@@ -3,11 +3,7 @@ var helpers = require('./helpers.js');
 module.exports = function(app){
 
 	app.get('/', function(req,res){
-		res.render('fileExplorer.html');
-	});
-
-	app.get('/forms', function(req,res){
-		res.render('form.html');
+		res.render('index.html');
 	});
 
 	app.post('/', function(req,res){

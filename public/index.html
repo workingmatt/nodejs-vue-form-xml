@@ -1,0 +1,21 @@
+<!doctype html>
+<!-- vueComponent -->
+<html>
+<head>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="col-md-12" id="vueComponent">
+	<comp-file-list v-show="showFilesFlag" :all-forms="[allForms]" v-on:event_toggle_form="showForm"></comp-file-list>
+	<comp-file-form v-show="showFormFlag" v-on:event_submit_form="newForm"></comp-file-form>
+</div>
+
+
+<!-- JS -->
+<script src="vue/dist/vue.js"></script>
+<script src="vue-resource/dist/vue-resource.js"></script>
+<script src="components.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

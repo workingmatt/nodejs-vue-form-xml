@@ -27,10 +27,7 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname+'/public');
 app.engine('html', require('ejs').renderFile);
 
-var fileJson = 'Nothing Yet';
-
 require('./src/routes.js')(app);
-
 
 var server = https.createServer(httpsOptions, app);
 //var server = http.createServer(app);
