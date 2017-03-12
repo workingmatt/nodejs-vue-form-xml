@@ -104,7 +104,19 @@ Vue.component('compFileForm',{
 				AdjacentFrom:'',
 				array_adjFrom:[],
 				AdjacentTo:{name:'',function:''},
-				array_adjTo: []
+				array_adjTo: [],
+				version_number:'',
+				functional_description:'',
+				associated_standards:'',
+				interfaces:'',
+				capabilities_limitations:'',
+				observation_info:'',
+				program_replacement_date: new Date("2001-01-01"),
+				program_component_obsolesence_date: new Date("2001-01-01"),
+				program_cease_production_date: new Date("2001-01-01"),
+				manufacturer:'',
+				id:'',
+				references:''
 			},
 					optionsCategory: [
 			{text:''},
@@ -161,94 +173,124 @@ Vue.component('compFileForm',{
 	},
 	template: `
 		<div>
-			<div class="col-md-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">Enter details for xml file</div>
-					<div class="panel-body">
-						Platform: <input class="form-control" v-model="localForm.Platform">
-						Subsystem: <input class="form-control" v-model="localForm.Subsystem">
-						Category: <br>
-							<select v-model="localForm.Category">
-								<option v-for="optionCategory in optionsCategory" v-bind:value="optionCategory.text">{{optionCategory.text}}</option>
-							</select><br>
-						Functional Area:<br>
-							<select v-model="localForm.FunctionalArea">
-								<option v-for="optionFuncArea in optionsFunctionalArea" v-bind:value="optionFuncArea.text">{{optionFuncArea.text}}</option>
-							</select><br>
-						Physical Layer:<br>
-							<select v-model="localForm.LayerPhysical">
-								<option v-for="optionLayerPhysical in optionsLayerPhysical" v-bind:value="optionLayerPhysical.text">{{optionLayerPhysical.text}}</option>
-							</select><br>
-						Application Layer:<br>
-							<select v-model="localForm.LayerApplication">
-								<option v-for="optionLayerApplication in optionsLayerApplication" v-bind:value="optionLayerApplication.text">{{optionLayerApplication.text}}</option>
-							</select><br>
-						Integration Layer:<br>
-							<select v-model="localForm.LayerIntegration">
-								<option v-for="optionLayerIntegration in optionsLayerIntegration" v-bind:value="optionLayerIntegration.text">{{optionLayerIntegration.text}}</option>
-							</select><br>
+			<div class="col-md-12">
+				<div class="col-md-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">Enter details for xml file</div>
+						<div class="panel-body">
+							Platform: <input class="form-control" v-model="localForm.Platform">
+							Subsystem: <input class="form-control" v-model="localForm.Subsystem">
+							Category: <br>
+								<select v-model="localForm.Category">
+									<option v-for="optionCategory in optionsCategory" v-bind:value="optionCategory.text">{{optionCategory.text}}</option>
+								</select><br>
+							Functional Area:<br>
+								<select v-model="localForm.FunctionalArea">
+									<option v-for="optionFuncArea in optionsFunctionalArea" v-bind:value="optionFuncArea.text">{{optionFuncArea.text}}</option>
+								</select><br>
+							Physical Layer:<br>
+								<select v-model="localForm.LayerPhysical">
+									<option v-for="optionLayerPhysical in optionsLayerPhysical" v-bind:value="optionLayerPhysical.text">{{optionLayerPhysical.text}}</option>
+								</select><br>
+							Application Layer:<br>
+								<select v-model="localForm.LayerApplication">
+									<option v-for="optionLayerApplication in optionsLayerApplication" v-bind:value="optionLayerApplication.text">{{optionLayerApplication.text}}</option>
+								</select><br>
+							Integration Layer:<br>
+								<select v-model="localForm.LayerIntegration">
+									<option v-for="optionLayerIntegration in optionsLayerIntegration" v-bind:value="optionLayerIntegration.text">{{optionLayerIntegration.text}}</option>
+								</select><br>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-heading">Second panel-body</div>
-					<div class="panel-body">
-						Made Of:<br>
-							<input class="form-control" v-model="localForm.MadeOf">
-							<button class="btn btn-primary" v-on:click="addMadeOf()">Add Made Of</button>
-							<div class="list-group">
-								<p class="list-group-item" v-for="(item,idx) in localForm.array_madeOf">{{item}}
-									<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('madeOf',idx)">Delete</button></p>
+				<div class="col-md-3">
+					<div class="panel panel-default">
+						<div class="panel-heading">Mado Of</div>
+						<div class="panel-body">
+							Made Of:<br>
+								<input class="form-control" v-model="localForm.MadeOf">
+								<button class="btn btn-primary" v-on:click="addMadeOf()">Add Made Of</button>
+								<div class="list-group">
+									<p class="list-group-item" v-for="(item,idx) in localForm.array_madeOf">{{item}}
+										<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('madeOf',idx)">Delete</button></p>
+								</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">Part Of</div>
+						<div class="panel-body">
+							Part Of:<br>
+								<input class="form-control" v-model="localForm.PartOf">
+								<button class="btn btn-primary" v-on:click="addPartOf()">Add Part Of</button>
+								<div class="list-group">
+									<p class="list-group-item" v-for="(item,idx) in localForm.array_partOf">{{item}}
+									<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('partOf',idx)">Delete</button></p>
+								</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="panel panel-default">
+						<div class="panel-heading">Adjacent From</div>
+						<div class="panel-body">
+							Adjacent From:<br>
+								<input class="localForm-control" v-model="localForm.AdjacentFrom">
+								<button class="btn btn-primary" v-on:click="addAdjFrom()">Add Adjacent From</button>
+								<div class="list-group">
+									<p class="list-group-item" v-for="(adj,idx) in localForm.array_adjFrom">{{adj}}
+									<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('adjacentFrom',idx)">Delete</button></p>
+									</p>
+								</div>
+						</div>	
+						<div class="panel-heading">Adjacent To</div>
+						<div class="panel-body">
+							Adjacent To Name:<br>
+								<input class="localForm-control" v-model="localForm.AdjacentTo.name">
+							Adjacent To Function:<br>
+								<select v-model="localForm.AdjacentTo.function">
+									<option v-for="optionAdjacentToFunction in optionsAdjacentToFunction" v-bind:value="optionAdjacentToFunction.text">{{optionAdjacentToFunction.text}}</option>
+								</select>
+								<button class="btn btn-primary" v-on:click="addAdjTo()">Add Adjacent To</button>
+								<div class="list-group">
+									<p class="list-group-item" v-for="(adj,idx) in localForm.array_adjTo">{{adj.name}} : {{adj.function}}
+									<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('adjacentTo',idx)">Delete</button></p>
+									</p>
+								</div>
+						</div>
+					</div>
+				</div>
+				</div>
+				<div class="col-md-12">
+					<div class="col-md-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">Enter details for xml file</div>
+							<div class="panel-body">
+								Functional Description: <input class="form-control" v-model="localForm.functional_description">
+								Associated Standards: <input class="form-control" v-model="localForm.associated_standards">
+								Interfaces: <input class="form-control" v-model="localForm.interfaces">
+								Capabilities and Limitations: <input class="form-control" v-model="localForm.capabilities_limitations">
+								Observation Information: <input class="form-control" v-model="localForm.observation_info">
+								Program Replacement Date: <input type="date" class="form-control" v-model="localForm.program_replacement_date">
 							</div>
+						</div>
 					</div>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">Enter Part Of</div>
-					<div class="panel-body">
-						Part Of:<br>
-							<input class="form-control" v-model="localForm.PartOf">
-							<button class="btn btn-primary" v-on:click="addPartOf()">Add Part Of</button>
-							<div class="list-group">
-								<p class="list-group-item" v-for="(item,idx) in localForm.array_partOf">{{item}}
-								<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('partOf',idx)">Delete</button></p>
+					<div class="col-md-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">Enter details for xml file</div>
+							<div class="panel-body">
+								Program Component Obsolesence Date: <input type="date" class="form-control" v-model="localForm.program_component_obsolesence_date">
+								Program Cease Production Date: <input type="date" class="form-control" v-model="localForm.program_cease_production_date">
+								Manufacturer: <input class="form-control" v-model="localForm.manufacturer">
+								ID: <input class="form-control" v-model="localForm.id">
+								References: <input class="form-control" v-model="localForm.references">
+								Version Number: <input class="form-control" v-model="localForm.version_number">
 							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-heading">Enter things from adjacents</div>
-					<div class="panel-body">
-						Adjacent From:<br>
-							<input class="localForm-control" v-model="localForm.AdjacentFrom">
-							<button class="btn btn-primary" v-on:click="addAdjFrom()">Add Adjacent From</button>
-							<div class="list-group">
-								<p class="list-group-item" v-for="(adj,idx) in localForm.array_adjFrom">{{adj}}
-								<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('adjacentFrom',idx)">Delete</button></p>
-								</p>
-							</div>
-					</div>
+				<div class="col-md-12">
+					<button class="btn btn-danger input-block-level form-control" v-on:click="submitForm(index)">Save</button>
 				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">Enter things to adjacents</div>
-					<div class="panel-body">
-						Adjacent To Name:<br>
-							<input class="localForm-control" v-model="localForm.AdjacentTo.name">
-						Adjacent To Function:<br>
-							<select v-model="localForm.AdjacentTo.function">
-								<option v-for="optionAdjacentToFunction in optionsAdjacentToFunction" v-bind:value="optionAdjacentToFunction.text">{{optionAdjacentToFunction.text}}</option>
-							</select>
-							<button class="btn btn-primary" v-on:click="addAdjTo()">Add Adjacent To</button>
-							<div class="list-group">
-								<p class="list-group-item" v-for="(adj,idx) in localForm.array_adjTo">{{adj.name}} : {{adj.function}}
-								<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('adjacentTo',idx)">Delete</button></p>
-								</p>
-							</div>
-					</div>
-				</div>
-			</div>
-			<button class="btn btn-danger" v-on:click="submitForm(index)">Add Field</button>
 		</div>`,
 		methods: {
 			submitForm: function(index){
@@ -264,7 +306,19 @@ Vue.component('compFileForm',{
 					MadeOf:JSON.stringify(this.allForms[index].array_madeOf),
 					PartOf:JSON.stringify(this.allForms[index].array_partOf),
 					AdjacentFrom:JSON.stringify(this.allForms[index].array_adjFrom),
-					AdjacentTo:JSON.stringify(this.allForms[index].array_adjTo)
+					AdjacentTo:JSON.stringify(this.allForms[index].array_adjTo),
+					version_number:this.localForm.version_number,
+					functional_description:this.localForm.functional_description,
+					associated_standards:this.localForm.associated_standards,
+					interfaces:this.localForm.interfaces,
+					capabilities_limitations:this.localForm.capabilities_limitations,
+					observation_info:this.localForm.observation_info,
+					program_replacement_date: this.localForm.program_replacement_date,
+					program_component_obsolesence_date: this.localForm.program_component_obsolesence_date,
+					program_cease_production_date: this.localForm.program_cease_production_date,
+					manufacturer:this.localForm.manufacturer,
+					id:this.localForm.id,
+					references:this.localForm.references
 				};
 
 				this.$emit("event_submit_form", JSON.stringify(msg)); //pass msg to app.js

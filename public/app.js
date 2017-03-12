@@ -24,7 +24,19 @@ var app = new Vue({
 			AdjacentFrom:'',
 			array_adjFrom:[],
 			AdjacentTo:{name:'',function:''},
-			array_adjTo: []
+			array_adjTo: [],
+			version_number:'',
+			functional_description:'',
+			associated_standards:'',
+			interfaces:'',
+			capabilities_limitations:'',
+			observation_info:'',
+			program_replacement_date: new Date(),
+			program_component_obsolesence_date: new Date(),
+			program_cease_production_date: new Date(),
+			manufacturer:'',
+			id:'',
+			references:''
 		},
 
 
