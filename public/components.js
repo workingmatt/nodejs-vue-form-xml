@@ -23,7 +23,7 @@ Vue.component('compFileList', {
 					<div class="panel-body">
 						<div class="list-group">
 							<p class="list-group-item" v-for="(file,idx) in serverFiles">{{file}}
-							<button class="btn btn-secondary btn-sm" v-on:click="editButtonClicked()">Edit</button>
+							<button class="btn btn-secondary btn-sm" v-on:click="editButtonClicked(file)">Edit</button>
 							</p>
 						</div>
 					</div>
@@ -56,28 +56,25 @@ Vue.component('compFileList', {
 			console.log("parsing this: ");
 			console.log(JSON.stringify(this.allForms[0]));
 			this.localForms = this.allForms.slice();
-			console.log("localForms.length:"+this.localForms.length);
 
 			//get server list
 			this.$http.post('/',{String:'picachu'}).then(function(res){
-				console.log('Refreshing File List -------------------');
 				this.serverFiles = res.body;
 			},
 			function(err){
 				console.log('fail');
 				console.log(err);
 			});
-
-			console.log("finished refresh");
 		},
 		newButtonClicked: function(){
 			//open blank form
-			this.$emit("event_toggle_form"); //picked up in index.html then app.js newForm()
+			this.$emit("event_toggle_form"); //picked up in index.html then app.js showForm()
 
 		},
-		editButtonClicked: function(){
+		editButtonClicked: function(filename){
 			//edit the file this button is listed with
-			console.log("Edit button clicked");
+			console.log("Edit button clicked"+filename);
+			this.$emit("event_edit_xml_form",filename);
 		}
 
 	}
@@ -89,36 +86,9 @@ Vue.component('compFileForm',{
 		return {
 			allForms: [],
 			index: 0,
-			localForm: {
-				Platform: '', 
-				Subsystem: '',
-				Category: '',
-				FunctionalArea:'',
-				LayerPhysical:'',
-				LayerApplication:'',
-				LayerIntegration:'',
-				MadeOf:'',
-				array_madeOf:[],
-				PartOf:'',
-				array_partOf:[],
-				AdjacentFrom:'',
-				array_adjFrom:[],
-				AdjacentTo:{name:'',function:''},
-				array_adjTo: [],
-				version_number:'',
-				functional_description:'',
-				associated_standards:'',
-				interfaces:'',
-				capabilities_limitations:'',
-				observation_info:'',
-				program_replacement_date: new Date("2001-01-01"),
-				program_component_obsolesence_date: new Date("2001-01-01"),
-				program_cease_production_date: new Date("2001-01-01"),
-				manufacturer:'',
-				id:'',
-				references:''
-			},
-					optionsCategory: [
+			localForm: this.form,
+
+			optionsCategory: [
 			{text:''},
 			{text:'Physical'},
 			{text:'Application'}
@@ -269,7 +239,7 @@ Vue.component('compFileForm',{
 								Associated Standards: <input class="form-control" v-model="localForm.associated_standards">
 								Interfaces: <input class="form-control" v-model="localForm.interfaces">
 								Capabilities and Limitations: <input class="form-control" v-model="localForm.capabilities_limitations">
-								Observation Information: <input class="form-control" v-model="localForm.observation_info">
+								Observation Information: <input class="form-control" v-model="localForm.observation_information">
 								Program Replacement Date: <input type="date" class="form-control" v-model="localForm.program_replacement_date">
 							</div>
 						</div>
@@ -291,6 +261,10 @@ Vue.component('compFileForm',{
 				<div class="col-md-12">
 					<button class="btn btn-danger input-block-level form-control" v-on:click="submitForm(index)">Save</button>
 				</div>
+		}
+		}
+		}
+		}
 		</div>`,
 		methods: {
 			submitForm: function(index){
@@ -312,7 +286,7 @@ Vue.component('compFileForm',{
 					associated_standards:this.localForm.associated_standards,
 					interfaces:this.localForm.interfaces,
 					capabilities_limitations:this.localForm.capabilities_limitations,
-					observation_info:this.localForm.observation_info,
+					observation_information:this.localForm.observation_information,
 					program_replacement_date: this.localForm.program_replacement_date,
 					program_component_obsolesence_date: this.localForm.program_component_obsolesence_date,
 					program_cease_production_date: this.localForm.program_cease_production_date,
@@ -344,7 +318,7 @@ Vue.component('compFileForm',{
 					associated_standards:'',
 					interfaces:'',
 					capabilities_limitations:'',
-					observation_info:'',
+					observation_information:'',
 					program_replacement_date: new Date("2001-01-01"),
 					program_component_obsolesence_date: new Date("2001-01-01"),
 					program_cease_production_date: new Date("2001-01-01"),

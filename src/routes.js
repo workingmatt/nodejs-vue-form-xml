@@ -7,6 +7,7 @@ module.exports = function(app){
 	});
 
 	app.post('/', function(req,res){
+		console.log(req.body);
 		helpers.sendFileList(res);
 	});
 
@@ -22,6 +23,12 @@ module.exports = function(app){
 //				console.log('***');
 //				console.log(response.body);
 //			});
+	});
+
+	app.post('/edit', function(req,res){
+		console.log("Server received request to edit "+req.body.filename);
+		helpers.processAveritiToJson(req.body.filename, res);
+		
 	});
 
 }

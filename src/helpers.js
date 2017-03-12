@@ -1,5 +1,6 @@
 //helpers.js
 var xmlBuilder = require('xmlbuilder');
+var parseString = require('xml2js').parseString;
 var fs = require('fs');
 
 module.exports={
@@ -21,7 +22,7 @@ sendFileList: function(res){
 
 writeXmlFile: function(xmlString,filename) {
 	console.log('adding xmlfiles/'+filename);
-	fs.writeFile(filename, xmlString, {flag:'wx'}, function (err){
+	fs.writeFile(filename, xmlString, {flag:'w'}, function (err){ //flag wx is no overwrite
 		if(err) {
 			if(err.code='EEXIST'){
 				console.log('file exists');
@@ -35,6 +36,7 @@ writeXmlFile: function(xmlString,filename) {
 	return;
 },
 
+//Uses xmlbuilder: www.npmjs.com/package/xmlbuilder
 processJsonToAveriti: function(objJson) {
 	var _objAdjFrom = JSON.parse(objJson.AdjacentFrom);
 	var _objAdjTo = JSON.parse(objJson.AdjacentTo);
@@ -78,13 +80,32 @@ processJsonToAveriti: function(objJson) {
 						.ele('program_replacement_date',objJson.program_replacement_date).up()
 						.ele('program_component_obsolesence_date',objJson.program_component_obsolesence_date).up()
 						.ele('program_cease_production_date',objJson.program_cease_production_date).up()
-						.ele('manufacturer',manufacturer).up()
+						.ele('manufacturer',objJson.manufacturer).up()
 						.ele('id',objJson.id).up()
 						.ele('references',objJson.references).up();
 
 	var xmlString = _xmlSubsystem.end({pretty: true});
 	//TODO Write to platformName_subsystemName.xml
 	return xmlString;
+},
+
+processAveritiToJson: function(filename, res){
+	var _resp;
+	console.log("In processAveritiToJson: "+filename);
+	var _fileForConversion = fs.readFile(filename, 'utf8', function(err, data){
+		if(err){
+			throw err;
+		}
+			_resp = parseString(data, function(err, result){
+				console.log("%%%%%%%%%%");
+				console.log(result);
+				console.log("@@@");
+				res.send(JSON.stringify(result));
+			});
+
+		});
+
+	
 }
 
 
