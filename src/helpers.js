@@ -24,7 +24,7 @@ writeXmlFile: function(xmlString,filename) {
 	fs.writeFile(filename, xmlString, {flag:'wx'}, function (err){
 		if(err) {
 			if(err.code='EEXIST'){
-				console.log('file ex');
+				console.log('file exists');
 			} else {
 				console.log(err);
 			}
@@ -69,6 +69,18 @@ processJsonToAveriti: function(objJson) {
 		_xmlChildAdjTo.ele('adjacent_to_name').txt(_objAdjTo[item].name);
 		_xmlChildAdjTo.ele('adjacent_to_function').txt(_objAdjTo[item].function);
 	}
+		_xmlSubsystem	.ele('version_number',objJson.version_number).up()
+						.ele('functional_description',objJson.functional_description).up()
+						.ele('associated_standards',objJson.associated_standards).up()
+						.ele('interfaces',objJson.interfaces).up()
+						.ele('capabilities_limitations',objJson.capabilities_limitations).up()
+						.ele('observation_information',objJson.observation_information).up()
+						.ele('program_replacement_date',objJson.program_replacement_date).up()
+						.ele('program_component_obsolesence_date',objJson.program_component_obsolesence_date).up()
+						.ele('program_cease_production_date',objJson.program_cease_production_date).up()
+						.ele('manufacturer',manufacturer).up()
+						.ele('id',objJson.id).up()
+						.ele('references',objJson.references).up();
 
 	var xmlString = _xmlSubsystem.end({pretty: true});
 	//TODO Write to platformName_subsystemName.xml

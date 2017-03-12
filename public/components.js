@@ -321,7 +321,7 @@ Vue.component('compFileForm',{
 					references:this.localForm.references
 				};
 
-				this.$emit("event_submit_form", JSON.stringify(msg)); //pass msg to app.js
+				this.$emit("event_save_form", JSON.stringify(msg)); //pass msg to app.js
 				
 				this.localForm = {
 					Platform: '',
@@ -338,7 +338,19 @@ Vue.component('compFileForm',{
 					AdjacentFrom:'',
 					array_adjFrom:[],
 					AdjacentTo:{name:'',function:''},
-					array_adjTo:[]
+					array_adjTo:[],
+					version_number:'',
+					functional_description:'',
+					associated_standards:'',
+					interfaces:'',
+					capabilities_limitations:'',
+					observation_info:'',
+					program_replacement_date: new Date("2001-01-01"),
+					program_component_obsolesence_date: new Date("2001-01-01"),
+					program_cease_production_date: new Date("2001-01-01"),
+					manufacturer:'',
+					id:'',
+					references:''
 				};
 
 				this.index = this.allForms.length;

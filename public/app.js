@@ -71,8 +71,8 @@ var app = new Vue({
 			console.log("editFile index="+index);
 		},
 
-		newForm: function(form){
-			console.log("newForm add the following to allForms array: ");
+		saveForm: function(form){
+			console.log("Saving form");
 			var obj = JSON.parse(form);
 			console.log(obj);
 			this.allForms[this.index] = obj;
