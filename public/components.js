@@ -263,6 +263,7 @@ Vue.component('compFileForm',{
 				</div>
 				<div class="col-md-12">
 					<button class="btn btn-danger input-block-level form-control" v-on:click="submitForm(index)">Save</button>
+					<button Class="btn input-block-level form-control" v-on:click="cancelForm()">Cancel</button>
 				</div>
 		</div>`,
 		methods: {
@@ -327,6 +328,40 @@ Vue.component('compFileForm',{
 				};
 
 				this.index = this.allForms.length;
+			},
+
+			cancelForm: function(){
+				this.localForm = {
+					Platform: '',
+					Subsystem: '',
+					Category: '',
+					FunctionalArea: '',
+					LayerPhysical: '',
+					LayerApplication:'',
+					LayerIntegration:'',
+					MadeOf:'',
+					array_madeOf:[],
+					PartOf:'',
+					array_partOf:[],
+					AdjacentFrom:'',
+					array_adjFrom:[],
+					AdjacentTo:{name:'',function:''},
+					array_adjTo:[],
+					version_number:'',
+					functional_description:'',
+					associated_standards:'',
+					interfaces:'',
+					capabilities_limitations:'',
+					observation_information:'',
+					program_replacement_date: new Date("2001-01-01"),
+					program_component_obsolesence_date: new Date("2001-01-01"),
+					program_cease_production_date: new Date("2001-01-01"),
+					manufacturer:'',
+					id:'',
+					references:''
+				};
+
+				this.$emit("event_cancel_form");
 			},
 
 			deleteElement: function(type,index){

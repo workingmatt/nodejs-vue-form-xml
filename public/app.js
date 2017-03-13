@@ -59,7 +59,8 @@ var app = new Vue({
 	methods: {
 		showFiles: function(){
 			console.log("toggling files display");
-			this.showFilesFlag = !showFilesFlag;
+			this.showFilesFlag = true;
+			this.showFormFlag = false;
 		},
 
 		showForm: function(){
@@ -123,6 +124,10 @@ var app = new Vue({
 			}else{
 				console.log("don't delete!");
 			}
+		},
+
+		cancelForm: function(){
+			this.showFiles();
 		},
 
 		saveForm: function(form){
