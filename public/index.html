@@ -7,7 +7,7 @@
 
 <body>
 <div class="col-md-12" id="vueComponent">
-	<comp-file-list v-show="showFilesFlag" :all-forms="[allForms]" v-on:event_toggle_form="showForm" v-on:event_edit_xml_form="editXmlForm"></comp-file-list>
+	<comp-file-list v-show="showFilesFlag" :all-forms="[allForms]" v-on:event_toggle_form="showForm" v-on:event_edit_xml_form="editXmlForm" v-on:event_delete_xml_file="deleteXmlFile"></comp-file-list>
 	<comp-file-form v-show="showFormFlag" :form=form v-on:event_save_form="saveForm"></comp-file-form>
 </div>
 

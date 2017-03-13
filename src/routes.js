@@ -31,4 +31,10 @@ module.exports = function(app){
 		
 	});
 
+	app.post('/delete', function(req,res){
+		console.log("post delete worked");
+		helpers.deleteFile(req.body.filename, res);
+//		res.send("done da delete");
+	});
+
 }

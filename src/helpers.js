@@ -30,10 +30,22 @@ writeXmlFile: function(xmlString,filename) {
 				console.log(err);
 			}
 		} else {
-		console.log('File Successfully written: '+filename);
+		console.log('File successfully written: '+filename);
 		}
 	});
 	return;
+},
+
+deleteFile: function(filename,res){
+	fs.unlink("../xmlfiles/"+filename, function(err){
+		if(err){
+			console.log(err);
+			res.send("Delete Failed");
+			return;
+		}
+		console.log("%s deleted",filename);
+		res.send("Deleted "+filename);
+	});
 },
 
 //Uses xmlbuilder: www.npmjs.com/package/xmlbuilder
@@ -62,8 +74,6 @@ processJsonToAveriti: function(objJson) {
 
 	for (item in _objAdjFrom){
 		_xmlSubsystem.ele('adjacent_from').txt(_objAdjFrom[item]);
-		//_tmpXml = xmlBuilder.create('adjacent_from').txt(_objAdjFrom[item]);
-		//_xmlSubsystem.importDocument(_tmpXml);
 	}
 
 	for (item in _objAdjTo){
@@ -85,7 +95,6 @@ processJsonToAveriti: function(objJson) {
 						.ele('references',objJson.references).up();
 
 	var xmlString = _xmlSubsystem.end({pretty: true});
-	//TODO Write to platformName_subsystemName.xml
 	return xmlString;
 },
 
@@ -97,9 +106,6 @@ processAveritiToJson: function(filename, res){
 			throw err;
 		}
 			_resp = parseString(data, function(err, result){
-				console.log("%%%%%%%%%%");
-				console.log(result);
-				console.log("@@@");
 				res.send(JSON.stringify(result));
 			});
 

@@ -67,11 +67,15 @@ var app = new Vue({
 			this.showFilesFlag = false;
 		},
 
-		editXmlForm: function(filename){
+		editXmlForm: function(filename){ //get JSON of filename.xml from server
 			filename = '../xmlfiles/'+filename;
 			console.log("editFile filename="+filename);
 			this.$http.post('/edit',{filename:filename}).then(function(res){
-				var _objToBeEdited = JSON.parse(res.body);
+
+				//TODO If a field isn't in XML it will be blank - must explicitly set it to '' ??
+				var _objToBeEdited = JSON.parse(res.body);//server sends back JSON version of filename.xml
+
+				//populate the form variable with JSON entries
 				this.form.Platform = _objToBeEdited.subsystem.platform_name[0];
 				this.form.Subsystem = _objToBeEdited.subsystem.subsystem_name[0];
 				this.form.FunctionalArea = _objToBeEdited.subsystem.functional_area[0];
@@ -82,10 +86,10 @@ var app = new Vue({
 				this.form.array_madeOf = _objToBeEdited.subsystem.made_of;
 				this.form.array_partOf = _objToBeEdited.subsystem.part_of;
 				this.form.array_adjFrom = _objToBeEdited.subsystem.adjacent_from;
-				for (thing in _objToBeEdited.subsystem.adjacent_to) {
-					this.form.array_adjTo[thing] = _objToBeEdited.subsystem.adjacent_to[thing];
-					this.form.array_adjTo[thing].name = _objToBeEdited.subsystem.adjacent_to[thing].adjacent_to_name[0];
-					this.form.array_adjTo[thing].function = _objToBeEdited.subsystem.adjacent_to[thing].adjacent_to_function[0];
+				for (element in _objToBeEdited.subsystem.adjacent_to) {
+					this.form.array_adjTo[element] = _objToBeEdited.subsystem.adjacent_to[element];
+					this.form.array_adjTo[element].name = _objToBeEdited.subsystem.adjacent_to[element].adjacent_to_name[0];
+					this.form.array_adjTo[element].function = _objToBeEdited.subsystem.adjacent_to[element].adjacent_to_function[0];
 				}
 				this.form.array_adjTo = _objToBeEdited.subsystem.adjacent_to;
 				this.form.version_number = _objToBeEdited.subsystem.version_number[0];
@@ -100,12 +104,25 @@ var app = new Vue({
 				this.form.manufacturer = _objToBeEdited.subsystem.manufacturer[0];
 				this.form.id = _objToBeEdited.subsystem.id[0];
 				this.form.references = _objToBeEdited.subsystem.references[0];
+	
+				//Open form to edit the above.
 				this.showForm();
 			},
 			function(err){
 				console.log('fail');
 				console.log(err);
 			});
+		},
+
+		deleteXmlFile: function(filename){
+			if (confirm("Really delete file "+filename+"?")) {
+				console.log("Deleting file %s",filename);
+				this.$http.post('/delete',{filename:filename}).then(function(res){
+					alert(res.body);
+				});
+			}else{
+				console.log("don't delete!");
+			}
 		},
 
 		saveForm: function(form){

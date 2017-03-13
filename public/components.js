@@ -24,6 +24,7 @@ Vue.component('compFileList', {
 						<div class="list-group">
 							<p class="list-group-item" v-for="(file,idx) in serverFiles">{{file}}
 							<button class="btn btn-secondary btn-sm" v-on:click="editButtonClicked(file)">Edit</button>
+							<button class="btn btn-danger btn-sm" v-on:click="deleteButtonClicked(file)">Delete</button>
 							</p>
 						</div>
 					</div>
@@ -75,6 +76,10 @@ Vue.component('compFileList', {
 			//edit the file this button is listed with
 			console.log("Edit button clicked"+filename);
 			this.$emit("event_edit_xml_form",filename);
+		},
+
+		deleteButtonClicked: function(filename){
+			this.$emit("event_delete_xml_file", filename);
 		}
 
 	}
