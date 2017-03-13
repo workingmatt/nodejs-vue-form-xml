@@ -52,7 +52,7 @@ var app = new Vue({
 	},
 
 	beforeDestroy: function(){
-		localStorage.setItem('fcmsLocalFiles',"wicked");
+		localStorage.setItem('fcmsLocalFiles',"");
 		//this.allForms = [];
 	},
 
@@ -126,13 +126,14 @@ var app = new Vue({
 		},
 
 		saveForm: function(form){
-			console.log("Saving form");
 			var obj = JSON.parse(form);
 			this.allForms[this.index] = obj;
 
 			//store locally and on server
 			localStorage.setItem('fcmsLocalFiles', JSON.stringify(this.allForms));
-			this.$http.post('/forms', form);
+			this.$http.post('/forms', form).then(function(res){
+				console.log(res.body);
+			});
 
 			//Hide form, show files
 			this.showFormFlag = false;

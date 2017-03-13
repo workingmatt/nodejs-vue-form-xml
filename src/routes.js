@@ -16,13 +16,7 @@ module.exports = function(app){
 
 		var filename = '../xmlfiles/'+req.body.Platform +'_'+req.body.Subsystem+'.xml';
 		helpers.writeXmlFile(helpers.processJsonToAveriti(req.body), filename);
-
-// TODO Try async to send back result of file write to client with 
-//		res.send(answer); here and the following in app.js (client side)
-//		this.$http.post('/forms', msg).then(function(response){
-//				console.log('***');
-//				console.log(response.body);
-//			});
+		res.send("New file created");
 	});
 
 	app.post('/edit', function(req,res){

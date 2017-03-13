@@ -11,7 +11,6 @@ Vue.component('compFileList', {
 	template: `
 		<div>
 			<div class="col-md-12">
-				{{allForms}}<br>
 				<button class="btn btn-secondary btn-sm" v-on:click="refreshButtonClicked()">Refresh File List</button>
 				<button class="btn btn-secondary btn-sm" v-on:click="newButtonClicked()">New</button>
 				<button class="btn btn-secondary btn-sm" v-on:click="flushLocalFiles()">Flush Local Files</button>
@@ -54,8 +53,7 @@ Vue.component('compFileList', {
 			console.log('Refreshing lists');
 
 			//Get local list
-			console.log("parsing this: ");
-			console.log(JSON.stringify(this.allForms[0]));
+			//console.log(JSON.stringify(this.allForms[0]));
 			this.localForms = this.allForms.slice();
 
 			//get server list
@@ -63,7 +61,7 @@ Vue.component('compFileList', {
 				this.serverFiles = res.body;
 			},
 			function(err){
-				console.log('fail');
+				console.log('Refresh fail');
 				console.log(err);
 			});
 		},
@@ -266,10 +264,6 @@ Vue.component('compFileForm',{
 				<div class="col-md-12">
 					<button class="btn btn-danger input-block-level form-control" v-on:click="submitForm(index)">Save</button>
 				</div>
-		}
-		}
-		}
-		}
 		</div>`,
 		methods: {
 			submitForm: function(index){
@@ -278,14 +272,14 @@ Vue.component('compFileForm',{
 					Platform:this.localForm.Platform,
 					Subsystem:this.localForm.Subsystem,
 					Category:this.localForm.Category,
-					FunctionalArea:this.allForms[index].FunctionalArea,
-					LayerPhysical:this.allForms[index].LayerPhysical,
-					LayerApplication:this.allForms[index].LayerApplication,
-					LayerIntegration:this.allForms[index].LayerIntegration,
-					MadeOf:JSON.stringify(this.allForms[index].array_madeOf),
-					PartOf:JSON.stringify(this.allForms[index].array_partOf),
-					AdjacentFrom:JSON.stringify(this.allForms[index].array_adjFrom),
-					AdjacentTo:JSON.stringify(this.allForms[index].array_adjTo),
+					FunctionalArea:this.localForm.FunctionalArea,
+					LayerPhysical:this.localForm.LayerPhysical,
+					LayerApplication:this.localForm.LayerApplication,
+					LayerIntegration:this.localForm.LayerIntegration,
+					MadeOf:JSON.stringify(this.localForm.array_madeOf),
+					PartOf:JSON.stringify(this.localForm.array_partOf),
+					AdjacentFrom:JSON.stringify(this.localForm.array_adjFrom),
+					AdjacentTo:JSON.stringify(this.localForm.array_adjTo),
 					version_number:this.localForm.version_number,
 					functional_description:this.localForm.functional_description,
 					associated_standards:this.localForm.associated_standards,
@@ -300,7 +294,7 @@ Vue.component('compFileForm',{
 					references:this.localForm.references
 				};
 
-				this.$emit("event_save_form", JSON.stringify(msg)); //pass msg to app.js
+				this.$emit("event_save_form", JSON.stringify(msg));//pass msg to app.js
 				
 				this.localForm = {
 					Platform: '',
