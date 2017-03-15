@@ -10,10 +10,9 @@ Vue.component('compFileList', {
 	},
 	template: `
 		<div>
-			<div class="col-md-12">
+			<div class="col-md-12 btn-toolbar">
 				<button class="btn btn-secondary btn-sm" v-on:click="refreshButtonClicked()">Refresh File List</button>
 				<button class="btn btn-secondary btn-sm" v-on:click="newButtonClicked()">New</button>
-				<button class="btn btn-secondary btn-sm" v-on:click="flushLocalFiles()">Flush Local Files</button>
 			</div>
 			<br><br>
 			<div class="col-md-6">
@@ -21,21 +20,10 @@ Vue.component('compFileList', {
 					<div class="panel-heading">Server files (if connected)</div>
 					<div class="panel-body">
 						<div class="list-group">
-							<p class="list-group-item" v-for="(file,idx) in serverFiles">{{file}}
-							<button class="btn btn-secondary btn-sm" v-on:click="editButtonClicked(file)">Edit</button>
-							<button class="btn btn-danger btn-sm" v-on:click="deleteButtonClicked(file)">Delete</button>
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">Local files</div>
-					<div class="panel-body">
-						<div class="list-group">
-							<p class="list-group-item" v-for="(form,idx) in localForms">{{form}}
-							<button class="btn btn-secondary btn-sm" v-on:click="editButtonClicked()">Edit</button>
+							<p class="list-group-item btn-toolbar" v-for="(file,idx) in serverFiles">
+								{{file}}
+								<button class="btn btn-secondary btn-sm pull-right" v-on:click="editButtonClicked(file)">Edit</button>
+								<button class="btn btn-danger btn-sm pull-right" v-on:click="deleteButtonClicked(file)">Delete</button>
 							</p>
 						</div>
 					</div>
@@ -44,11 +32,6 @@ Vue.component('compFileList', {
 			<br>
 		</div>`,
 	methods: {
-		flushLocalFiles: function(){
-			console.log("flushing local files");
-			localStorage.setItem('fcmsLocalFiles',"");
-		},
-
 		refreshButtonClicked: function(){
 			console.log('Refreshing lists');
 
@@ -78,8 +61,12 @@ Vue.component('compFileList', {
 
 		deleteButtonClicked: function(filename){
 			this.$emit("event_delete_xml_file", filename);
-		}
+		},
 
+		flushLocalFiles: function(){ //not used
+			console.log("flushing local files");
+			localStorage.setItem('fcmsLocalFiles',"");
+		}
 	}
 })
 
@@ -113,6 +100,7 @@ Vue.component('compFileForm',{
 
 		optionsLayerPhysical: [
 			{text:''},
+			{text:'Wide Area Access'},
 			{text:'Sub-System Processing'},
 			{text:'LANS, Databases and Servers'},
 			{text:'Interfaces, User Terminals, Displays and Applications'},

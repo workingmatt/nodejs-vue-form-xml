@@ -80,6 +80,16 @@ firewall services are configured by xml files in /usr/lib/firewalld/services/
 
 It wasn't the firewall it's sudo setenforce permissive (TODO make it permanent)
 
+SELINUX
+Definitely:
+sudo getsebool httpd_can_network_connect
+sudo setsebool httpd_can_network_connect on
+Possibly:
+sudo getenforce
+sudo setenforce Permissive
+
+sudo chcon -Rt httpd_sys_context_t /path/to/www
+
 PM2
 sudo pm2 startup
 sudo pm2 start server.js
@@ -87,3 +97,6 @@ sudo pm2 save
 
 sudo is important, different users have different pm2s.
 NB there's a matt.mapleston pm2
+
+VM: ~/dev/node....
+SV: /usr/share/nginx/node....

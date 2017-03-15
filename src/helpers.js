@@ -50,10 +50,10 @@ deleteFile: function(filename,res){
 
 //Uses xmlbuilder: www.npmjs.com/package/xmlbuilder
 processJsonToAveriti: function(objJson) {
-	var _objAdjFrom = JSON.parse(objJson.AdjacentFrom);
-	var _objAdjTo = JSON.parse(objJson.AdjacentTo);
-	var _objMadeOf = JSON.parse(objJson.MadeOf);
-	var _objPartOf = JSON.parse(objJson.PartOf);
+	if (objJson.AdjacentFrom) {var _objAdjFrom = JSON.parse(objJson.AdjacentFrom);}
+	if (objJson.AdjacentTo) {var _objAdjTo = JSON.parse(objJson.AdjacentTo);}
+	if (objJson.MadeOf) {var _objMadeOf = JSON.parse(objJson.MadeOf);}
+	if (objJson.PartOf) {var _objPartOf = JSON.parse(objJson.PartOf);}
 
 	var _xmlSubsystem = xmlBuilder.create('subsystem')
 		.ele('platform_name',objJson.Platform).up()
