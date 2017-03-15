@@ -36,11 +36,10 @@ Vue.component('compFileList', {
 			console.log('Refreshing lists');
 
 			//Get local list
-			//console.log(JSON.stringify(this.allForms[0]));
 			this.localForms = this.allForms.slice();
 
 			//get server list
-			this.$http.post('/',{String:'picachu'}).then(function(res){
+			this.$http.post('/',{String:'foo'}).then(function(res){
 				this.serverFiles = res.body;
 			},
 			function(err){
@@ -55,7 +54,6 @@ Vue.component('compFileList', {
 		},
 		editButtonClicked: function(filename){
 			//edit the file this button is listed with
-			console.log("Edit button clicked"+filename);
 			this.$emit("event_edit_xml_form",filename);
 		},
 
@@ -64,20 +62,19 @@ Vue.component('compFileList', {
 		},
 
 		flushLocalFiles: function(){ //not used
-			console.log("flushing local files");
 			localStorage.setItem('fcmsLocalFiles',"");
 		}
 	}
 })
-
-Vue.component('compFileForm',{
+//Validation of props explained https://vuejs.org/v2/api/#props
+Vue.component('compForm',{
 	props: ['file','showFormFlag','form'],
 	data: function() {
 		return {
 			allForms: [],
 			index: 0,
 			localForm: this.form,
-
+			
 			optionsCategory: [
 			{text:''},
 			{text:'Physical'},
@@ -132,9 +129,39 @@ Vue.component('compFileForm',{
 
 		}
 	},
+
+	computed: {
+		flag: function(){
+			flag = this.showFormFlag;
+
+			console.log("computing "+flag);
+		}
+	},
+
+	watch: {
+		form: function(){
+			console.log('form watch triggered');
+		},
+		localForm: function(){
+			console.log('localForm watch triggered');
+		},
+		flag: function(){
+			console.log('flag triggered');
+		},
+		showFormFlag: function(){
+			console.log('showFormFlag triggered');
+		},
+		index: function() {
+			console.log('index changed');
+		}
+	},
+
 	template: `
 		<div>
 			<div class="col-md-12">
+				<button class="btn btn-success input-block-level form-control" v-on:click="btnRefresh()">Refresh Form</button>
+				<button class="btn btn-danger input-block-level form-control" v-on:click="submitForm(index)">Save</button>
+				<button Class="btn btn-secondary input-block-level form-control" v-on:click="cancelForm()">Cancel</button>
 				<div class="col-md-6">
 					<div class="panel panel-default">
 						<div class="panel-heading">Enter details for xml file</div>
@@ -166,10 +193,10 @@ Vue.component('compFileForm',{
 				</div>
 				<div class="col-md-3">
 					<div class="panel panel-default">
-						<div class="panel-heading">Mado Of</div>
+						<div class="panel-heading">Made Of</div>
 						<div class="panel-body">
 							Made Of:<br>
-								<input class="form-control" v-model="localForm.MadeOf">
+								<input class="form-control" v-model="localForm.made_of">
 								<button class="btn btn-primary" v-on:click="addMadeOf()">Add Made Of</button>
 								<div class="list-group">
 									<p class="list-group-item" v-for="(item,idx) in localForm.array_madeOf">{{item}}
@@ -181,11 +208,11 @@ Vue.component('compFileForm',{
 						<div class="panel-heading">Part Of</div>
 						<div class="panel-body">
 							Part Of:<br>
-								<input class="form-control" v-model="localForm.PartOf">
-								<button class="btn btn-primary" v-on:click="addPartOf()">Add Part Of</button>
+								<input class="form-control" v-model="localForm.part_of">
+								<button class="btn btn-primary" v-on:click="addpart_of()">Add Part Of</button>
 								<div class="list-group">
-									<p class="list-group-item" v-for="(item,idx) in localForm.array_partOf">{{item}}
-									<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('partOf',idx)">Delete</button></p>
+									<p class="list-group-item" v-for="(item,idx) in localForm.array_part_of">{{item}}
+									<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('part_of',idx)">Delete</button></p>
 								</div>
 						</div>
 					</div>
@@ -195,25 +222,25 @@ Vue.component('compFileForm',{
 						<div class="panel-heading">Adjacent From</div>
 						<div class="panel-body">
 							Adjacent From:<br>
-								<input class="localForm-control" v-model="localForm.AdjacentFrom">
-								<button class="btn btn-primary" v-on:click="addAdjFrom()">Add Adjacent From</button>
+								<input class="localForm-control" v-model="localForm.adjacent_from">
+								<button class="btn btn-primary" v-on:click="addadj_from()">Add Adjacent From</button>
 								<div class="list-group">
-									<p class="list-group-item" v-for="(adj,idx) in localForm.array_adjFrom">{{adj}}
-									<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('adjacentFrom',idx)">Delete</button></p>
+									<p class="list-group-item" v-for="(adj,idx) in localForm.array_adj_from">{{adj}}
+									<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('adjacent_from',idx)">Delete</button></p>
 									</p>
 								</div>
 						</div>	
 						<div class="panel-heading">Adjacent To</div>
 						<div class="panel-body">
 							Adjacent To Name:<br>
-								<input class="localForm-control" v-model="localForm.AdjacentTo.name">
+								<input class="localForm-control" v-model="localForm.AdjacentTo.adjacent_to_name">
 							Adjacent To Function:<br>
-								<select v-model="localForm.AdjacentTo.function">
+								<select v-model="localForm.AdjacentTo.adjacent_to_function">
 									<option v-for="optionAdjacentToFunction in optionsAdjacentToFunction" v-bind:value="optionAdjacentToFunction.text">{{optionAdjacentToFunction.text}}</option>
 								</select>
 								<button class="btn btn-primary" v-on:click="addAdjTo()">Add Adjacent To</button>
 								<div class="list-group">
-									<p class="list-group-item" v-for="(adj,idx) in localForm.array_adjTo">{{adj.name}} : {{adj.function}}
+									<p class="list-group-item" v-for="(adj,idx) in localForm.array_adjTo">{{adj.adjacent_to_name}} : {{adj.adjacent_to_function}}
 									<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('adjacentTo',idx)">Delete</button></p>
 									</p>
 								</div>
@@ -251,10 +278,14 @@ Vue.component('compFileForm',{
 				</div>
 				<div class="col-md-12">
 					<button class="btn btn-danger input-block-level form-control" v-on:click="submitForm(index)">Save</button>
-					<button Class="btn input-block-level form-control" v-on:click="cancelForm()">Cancel</button>
+					<button Class="btn btn-secondary input-block-level form-control" v-on:click="cancelForm()">Cancel</button>
 				</div>
 		</div>`,
 		methods: {
+			btnRefresh: function() {
+				console.log("btnRefresh pressed");
+				this.localForm = this.form;
+			},
 			submitForm: function(index){
 				this.allForms[index]=this.localForm;
 				var msg = {
@@ -266,8 +297,8 @@ Vue.component('compFileForm',{
 					LayerApplication:this.localForm.LayerApplication,
 					LayerIntegration:this.localForm.LayerIntegration,
 					MadeOf:JSON.stringify(this.localForm.array_madeOf),
-					PartOf:JSON.stringify(this.localForm.array_partOf),
-					AdjacentFrom:JSON.stringify(this.localForm.array_adjFrom),
+					part_of:JSON.stringify(this.localForm.array_part_of),
+					adjacent_from:JSON.stringify(this.localForm.array_adj_from),
 					AdjacentTo:JSON.stringify(this.localForm.array_adjTo),
 					version_number:this.localForm.version_number,
 					functional_description:this.localForm.functional_description,
@@ -293,13 +324,13 @@ Vue.component('compFileForm',{
 					LayerPhysical: '',
 					LayerApplication:'',
 					LayerIntegration:'',
-					MadeOf:'',
+					made_of:'',
 					array_madeOf:[],
-					PartOf:'',
-					array_partOf:[],
-					AdjacentFrom:'',
-					array_adjFrom:[],
-					AdjacentTo:{name:'',function:''},
+					part_of:'',
+					array_part_of:[],
+					adjacent_from:'',
+					array_adj_from:[],
+					AdjacentTo:{adjacent_to_name:'',adjacent_to_function:''},
 					array_adjTo:[],
 					version_number:'',
 					functional_description:'',
@@ -327,13 +358,13 @@ Vue.component('compFileForm',{
 					LayerPhysical: '',
 					LayerApplication:'',
 					LayerIntegration:'',
-					MadeOf:'',
+					made_of:'',
 					array_madeOf:[],
-					PartOf:'',
-					array_partOf:[],
-					AdjacentFrom:'',
-					array_adjFrom:[],
-					AdjacentTo:{name:'',function:''},
+					part_of:'',
+					array_part_of:[],
+					adjacent_from:'',
+					array_adj_from:[],
+					AdjacentTo:{adjacent_to_name:'',adjacent_to_function:''},
 					array_adjTo:[],
 					version_number:'',
 					functional_description:'',
@@ -341,9 +372,9 @@ Vue.component('compFileForm',{
 					interfaces:'',
 					capabilities_limitations:'',
 					observation_information:'',
-					program_replacement_date: new Date("2001-01-01"),
-					program_component_obsolesence_date: new Date("2001-01-01"),
-					program_cease_production_date: new Date("2001-01-01"),
+					program_replacement_date: "2001-01-01",//new Date("2001-01-01"),
+					program_component_obsolesence_date: "2001-01-01",//new Date("2001-01-01"),
+					program_cease_production_date: "2001-01-01",//new Date("2001-01-01"),
 					manufacturer:'',
 					id:'',
 					references:''
@@ -357,12 +388,12 @@ Vue.component('compFileForm',{
 					if(confirm('Are you sure you want to delete that?')){
 						if (type=='madeOf'){
 							this.localForm.array_madeOf.splice(index,1);
-						}else if (type=='partOf'){
-							this.localForm.array_partOf.splice(index,1);
+						}else if (type=='part_of'){
+							this.localForm.array_part_of.splice(index,1);
 						}else if (type=='adjacentTo'){
 							this.localForm.array_adjTo.splice(index,1);
-						} else if (type=='adjacentFrom'){
-							this.localForm.array_adjFrom.splice(index,1);
+						} else if (type=='adjacent_from'){
+							this.localForm.array_adj_from.splice(index,1);
 						} else {
 							console.log('Error in type of thing to delete');
 						}
@@ -370,25 +401,25 @@ Vue.component('compFileForm',{
 				}
 			},
 
-			addAdjFrom: function(){
-				this.localForm.array_adjFrom.push(this.localForm.AdjacentFrom);
-				this.localForm.AdjacentFrom='';
+			addadj_from: function(){
+				this.localForm.array_adj_from.push(this.localForm.adjacent_from);
+				this.localForm.adjacent_from='';
 			},
 
 			addAdjTo: function(){
-				this.localForm.array_adjTo.push({name:this.localForm.AdjacentTo.name, function:this.localForm.AdjacentTo.function});
-				this.localForm.AdjacentTo.name = '';
-				this.localForm.AdjacentTo.function = '';
+				this.localForm.array_adjTo.push({adjacent_to_name:this.localForm.AdjacentTo.adjacent_to_name, adjacent_to_function:this.localForm.AdjacentTo.adjacent_to_function});
+				this.localForm.AdjacentTo.adjacent_to_name = '';
+				this.localForm.AdjacentTo.adjacent_to_function = '';
 			},
 
 			addMadeOf: function(){
-				this.localForm.array_madeOf.push(this.localForm.MadeOf);
-				this.localForm.MadeOf='';
+				this.localForm.array_madeOf.push(this.localForm.made_of);
+				this.localForm.made_of='';
 			},
 
-			addPartOf: function(){
-				this.localForm.array_partOf.push(this.localForm.PartOf);
-				this.localForm.PartOf='';
+			addpart_of: function(){
+				this.localForm.array_part_of.push(this.localForm.part_of);
+				this.localForm.part_of='';
 			},
 
 		}

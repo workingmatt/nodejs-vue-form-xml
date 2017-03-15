@@ -17,13 +17,13 @@ var app = new Vue({
 			LayerPhysical:'',
 			LayerApplication:'',
 			LayerIntegration:'',
-			MadeOf:'',
+			made_of:'',
 			array_madeOf:[],
-			PartOf:'',
-			array_partOf:[],
-			AdjacentFrom:'',
-			array_adjFrom:[],
-			AdjacentTo:{name:'',function:''},
+			part_of:'',
+			array_part_of:[],
+			adjacent_from:'',
+			array_adj_from:[],
+			AdjacentTo:{adjacent_to_name:'',adjacent_to_function:''},
 			array_adjTo: [],
 			version_number:'',
 			functional_description:'',
@@ -70,12 +70,11 @@ var app = new Vue({
 
 		editXmlForm: function(filename){ //get JSON of filename.xml from server
 			filename = '../xmlfiles/'+filename;
-			console.log("editFile filename="+filename);
 			this.$http.post('/edit',{filename:filename}).then(function(res){
 
 				//TODO If a field isn't in XML it will be blank - must explicitly set it to '' ??
 				var _objToBeEdited = JSON.parse(res.body);//server sends back JSON version of filename.xml
-
+				
 				//populate the form variable with JSON entries
 				this.form.Platform = _objToBeEdited.subsystem.platform_name[0];
 				this.form.Subsystem = _objToBeEdited.subsystem.subsystem_name[0];
@@ -84,13 +83,25 @@ var app = new Vue({
 				this.form.LayerPhysical = _objToBeEdited.subsystem.layer_physical[0];
 				this.form.LayerApplication = _objToBeEdited.subsystem.layer_application[0];
 				this.form.LayerIntegration = _objToBeEdited.subsystem.layer_integration[0];
-				this.form.array_madeOf = _objToBeEdited.subsystem.made_of;
-				this.form.array_partOf = _objToBeEdited.subsystem.part_of;
-				this.form.array_adjFrom = _objToBeEdited.subsystem.adjacent_from;
-				for (element in _objToBeEdited.subsystem.adjacent_to) {
-					this.form.array_adjTo[element] = _objToBeEdited.subsystem.adjacent_to[element];
-					this.form.array_adjTo[element].name = _objToBeEdited.subsystem.adjacent_to[element].adjacent_to_name[0];
-					this.form.array_adjTo[element].function = _objToBeEdited.subsystem.adjacent_to[element].adjacent_to_function[0];
+				
+				console.log("---------------");
+				console.log(_objToBeEdited);
+				console.log("---------------");
+				for (element in _objToBeEdited.subsystem.array_made_of) {
+					this.form.array_madeOf[element] = _objToBeEdited.subsystem.array_made_of[element];
+				}
+
+				for (element in _objToBeEdited.subsystem.array_made_of){
+					this.form.array_part_of[element] = _objToBeEdited.subsystem.array_part_of[element];
+				}
+				for (element in _objToBeEdited.subsystem.array_adj_from) {
+					this.form.array_adj_from[element] = _objToBeEdited.subsystem.array_adjacent_from[element];
+				}
+
+				for (element in _objToBeEdited.subsystem.array_adjacent_to) {
+					this.form.array_adjTo[element] = _objToBeEdited.subsystem.array_adjacent_to[element];
+					this.form.array_adjTo[element].adjacent_to_name = _objToBeEdited.subsystem.array_adjacent_to[element].adjacent_to_name[0];
+					this.form.array_adjTo[element].adjacent_to_function = _objToBeEdited.subsystem.array_adjacent_to[element].adjacent_to_function[0];
 				}
 				this.form.array_adjTo = _objToBeEdited.subsystem.adjacent_to;
 				this.form.version_number = _objToBeEdited.subsystem.version_number[0];
@@ -105,7 +116,9 @@ var app = new Vue({
 				this.form.manufacturer = _objToBeEdited.subsystem.manufacturer[0];
 				this.form.id = _objToBeEdited.subsystem.id[0];
 				this.form.references = _objToBeEdited.subsystem.references[0];
-	
+				
+				console.log("app.js this.form: "+this.form.Platform)
+
 				//Open form to edit the above.
 				this.showForm();
 			},
@@ -132,10 +145,10 @@ var app = new Vue({
 
 		saveForm: function(form){
 			var obj = JSON.parse(form);
-			this.allForms[this.index] = obj;
+			this.allForms[this.index] = obj; //local store
 
 			//store locally and on server
-			localStorage.setItem('fcmsLocalFiles', JSON.stringify(this.allForms));
+			//localStorage.setItem('fcmsLocalFiles', JSON.stringify(this.allForms));
 			this.$http.post('/forms', form).then(function(res){
 				console.log(res.body);
 			});

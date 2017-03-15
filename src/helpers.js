@@ -50,10 +50,28 @@ deleteFile: function(filename,res){
 
 //Uses xmlbuilder: www.npmjs.com/package/xmlbuilder
 processJsonToAveriti: function(objJson) {
-	if (objJson.AdjacentFrom) {var _objAdjFrom = JSON.parse(objJson.AdjacentFrom);}
-	if (objJson.AdjacentTo) {var _objAdjTo = JSON.parse(objJson.AdjacentTo);}
-	if (objJson.MadeOf) {var _objMadeOf = JSON.parse(objJson.MadeOf);}
-	if (objJson.PartOf) {var _objPartOf = JSON.parse(objJson.PartOf);}
+	
+	if (objJson.adjacent_from) {var _objadj_from = JSON.parse(objJson.adjacent_from);}
+	else {var _objadj_from = '';}
+
+	if (objJson.AdjacentTo) {
+		var _objArrayAdjTo = JSON.parse(objJson.AdjacentTo);
+	} else {
+		var _objAdjTo = [];
+		//_objAdjTo[0] = JSON.parse({"adjacent_to_name":'',"adjacent_to_function":''});
+		_objAdjTo[0] = {"adjacent_to_name":'',"adjacent_to_function":''};
+		
+	}
+
+	if (objJson.MadeOf) {
+		var _objmade_of = JSON.parse(objJson.MadeOf);
+	} else {
+		var _objmade_of = '';
+	}
+
+	console.log(objJson);
+	if (objJson.part_of) {var _objpart_of = JSON.parse(objJson.part_of);}
+	else {var _objpart_of = '';}
 
 	var _xmlSubsystem = xmlBuilder.create('subsystem')
 		.ele('platform_name',objJson.Platform).up()
@@ -64,35 +82,35 @@ processJsonToAveriti: function(objJson) {
 		.ele('layer_application',objJson.LayerApplication).up()
 		.ele('layer_integration',objJson.LayerIntegration).up();
 
-	for (item in _objMadeOf){
-		_xmlSubsystem.ele('made_of').txt(_objMadeOf[item]);
+	for (item in _objmade_of){
+		_xmlSubsystem.ele('made_of').txt(_objmade_of[item]);
 	}
 
-	for (item in _objPartOf){
-		_xmlSubsystem.ele('part_of').txt(_objPartOf[item]);
+	for (item in _objpart_of){
+		_xmlSubsystem.ele('part_of').txt(_objpart_of[item]);
 	}
 
-	for (item in _objAdjFrom){
-		_xmlSubsystem.ele('adjacent_from').txt(_objAdjFrom[item]);
+	for (item in _objadj_from){
+		_xmlSubsystem.ele('adjacent_from').txt(_objadj_from[item]);
 	}
 
-	for (item in _objAdjTo){
+	for (item in _objArrayAdjTo){
 		var _xmlChildAdjTo = _xmlSubsystem.ele('adjacent_to');
-		_xmlChildAdjTo.ele('adjacent_to_name').txt(_objAdjTo[item].name);
-		_xmlChildAdjTo.ele('adjacent_to_function').txt(_objAdjTo[item].function);
+		_xmlChildAdjTo.ele('adjacent_to_name').txt(_objArrayAdjTo[item].adjacent_to_name);
+		_xmlChildAdjTo.ele('adjacent_to_function').txt(_objArrayAdjTo[item].adjacent_to_function);
 	}
-		_xmlSubsystem	.ele('version_number',objJson.version_number).up()
-						.ele('functional_description',objJson.functional_description).up()
-						.ele('associated_standards',objJson.associated_standards).up()
-						.ele('interfaces',objJson.interfaces).up()
-						.ele('capabilities_limitations',objJson.capabilities_limitations).up()
-						.ele('observation_information',objJson.observation_information).up()
-						.ele('program_replacement_date',objJson.program_replacement_date).up()
-						.ele('program_component_obsolesence_date',objJson.program_component_obsolesence_date).up()
-						.ele('program_cease_production_date',objJson.program_cease_production_date).up()
-						.ele('manufacturer',objJson.manufacturer).up()
-						.ele('id',objJson.id).up()
-						.ele('references',objJson.references).up();
+	_xmlSubsystem	.ele('version_number',objJson.version_number).up()
+					.ele('functional_description',objJson.functional_description).up()
+					.ele('associated_standards',objJson.associated_standards).up()
+					.ele('interfaces',objJson.interfaces).up()
+					.ele('capabilities_limitations',objJson.capabilities_limitations).up()
+					.ele('observation_information',objJson.observation_information).up()
+					.ele('program_replacement_date',objJson.program_replacement_date).up()
+					.ele('program_component_obsolesence_date',objJson.program_component_obsolesence_date).up()
+					.ele('program_cease_production_date',objJson.program_cease_production_date).up()
+					.ele('manufacturer',objJson.manufacturer).up()
+					.ele('id',objJson.id).up()
+					.ele('references',objJson.references).up();
 
 	var xmlString = _xmlSubsystem.end({pretty: true});
 	return xmlString;
@@ -105,13 +123,12 @@ processAveritiToJson: function(filename, res){
 		if(err){
 			throw err;
 		}
-			_resp = parseString(data, function(err, result){
-				res.send(JSON.stringify(result));
-			});
-
+		_resp = parseString(data, function(err, result){
+			res.send(JSON.stringify(result));
+			return;
 		});
 
-	
+		});
 }
 
 
