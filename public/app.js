@@ -23,8 +23,8 @@ var app = new Vue({
 			array_part_of:[],
 			adjacent_from:'',
 			array_adj_from:[],
-			AdjacentTo:{adjacent_to_name:'',adjacent_to_function:''},
-			array_adjTo: [],
+			adjacent_to:{adjacent_to_name:'',adjacent_to_function:''},
+			array_adj_to: [],
 			version_number:'',
 			functional_description:'',
 			associated_standards:'',
@@ -99,11 +99,11 @@ var app = new Vue({
 				}
 
 				for (element in _objToBeEdited.subsystem.array_adjacent_to) {
-					this.form.array_adjTo[element] = _objToBeEdited.subsystem.array_adjacent_to[element];
-					this.form.array_adjTo[element].adjacent_to_name = _objToBeEdited.subsystem.array_adjacent_to[element].adjacent_to_name[0];
-					this.form.array_adjTo[element].adjacent_to_function = _objToBeEdited.subsystem.array_adjacent_to[element].adjacent_to_function[0];
+					this.form.array_adj_to[element] = _objToBeEdited.subsystem.array_adjacent_to[element];
+					this.form.array_adj_to[element].adjacent_to_name = _objToBeEdited.subsystem.array_adjacent_to[element].adjacent_to_name[0];
+					this.form.array_adj_to[element].adjacent_to_function = _objToBeEdited.subsystem.array_adjacent_to[element].adjacent_to_function[0];
 				}
-				this.form.array_adjTo = _objToBeEdited.subsystem.adjacent_to;
+				this.form.array_adj_to = _objToBeEdited.subsystem.adjacent_to;
 				this.form.version_number = _objToBeEdited.subsystem.version_number[0];
 				this.form.functional_description = _objToBeEdited.subsystem.functional_description[0];
 				this.form.associated_standards = _objToBeEdited.subsystem.associated_standards[0];

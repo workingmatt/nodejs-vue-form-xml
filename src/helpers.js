@@ -54,12 +54,11 @@ processJsonToAveriti: function(objJson) {
 	if (objJson.adjacent_from) {var _objadj_from = JSON.parse(objJson.adjacent_from);}
 	else {var _objadj_from = '';}
 
-	if (objJson.AdjacentTo) {
-		var _objArrayAdjTo = JSON.parse(objJson.AdjacentTo);
+	if (objJson.adjacent_to) {
+		var _objadj_to = JSON.parse(objJson.adjacent_to);
 	} else {
-		var _objAdjTo = [];
-		//_objAdjTo[0] = JSON.parse({"adjacent_to_name":'',"adjacent_to_function":''});
-		_objAdjTo[0] = {"adjacent_to_name":'',"adjacent_to_function":''};
+		var _objadj_to = [];
+		_objadj_to[0] = {"adjacent_to_name":'',"adjacent_to_function":''};
 		
 	}
 
@@ -94,10 +93,10 @@ processJsonToAveriti: function(objJson) {
 		_xmlSubsystem.ele('adjacent_from').txt(_objadj_from[item]);
 	}
 
-	for (item in _objArrayAdjTo){
+	for (item in _objadj_to){
 		var _xmlChildAdjTo = _xmlSubsystem.ele('adjacent_to');
-		_xmlChildAdjTo.ele('adjacent_to_name').txt(_objArrayAdjTo[item].adjacent_to_name);
-		_xmlChildAdjTo.ele('adjacent_to_function').txt(_objArrayAdjTo[item].adjacent_to_function);
+		_xmlChildAdjTo.ele('adjacent_to_name').txt(_objadj_to[item].adjacent_to_name);
+		_xmlChildAdjTo.ele('adjacent_to_function').txt(_objadj_to[item].adjacent_to_function);
 	}
 	_xmlSubsystem	.ele('version_number',objJson.version_number).up()
 					.ele('functional_description',objJson.functional_description).up()

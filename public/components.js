@@ -233,15 +233,15 @@ Vue.component('compForm',{
 						<div class="panel-heading">Adjacent To</div>
 						<div class="panel-body">
 							Adjacent To Name:<br>
-								<input class="localForm-control" v-model="localForm.AdjacentTo.adjacent_to_name">
+								<input class="localForm-control" v-model="localForm.adjacent_to.adjacent_to_name">
 							Adjacent To Function:<br>
-								<select v-model="localForm.AdjacentTo.adjacent_to_function">
+								<select v-model="localForm.adjacent_to.adjacent_to_function">
 									<option v-for="optionAdjacentToFunction in optionsAdjacentToFunction" v-bind:value="optionAdjacentToFunction.text">{{optionAdjacentToFunction.text}}</option>
 								</select>
-								<button class="btn btn-primary" v-on:click="addAdjTo()">Add Adjacent To</button>
+								<button class="btn btn-primary" v-on:click="addadj_to()">Add Adjacent To</button>
 								<div class="list-group">
-									<p class="list-group-item" v-for="(adj,idx) in localForm.array_adjTo">{{adj.adjacent_to_name}} : {{adj.adjacent_to_function}}
-									<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('adjacentTo',idx)">Delete</button></p>
+									<p class="list-group-item" v-for="(adj,idx) in localForm.array_adj_to">{{adj.adjacent_to_name}} : {{adj.adjacent_to_function}}
+									<button class="btn btn-secondary btn-sm" v-on:click="deleteElement('adjacent_to',idx)">Delete</button></p>
 									</p>
 								</div>
 						</div>
@@ -299,7 +299,7 @@ Vue.component('compForm',{
 					MadeOf:JSON.stringify(this.localForm.array_madeOf),
 					part_of:JSON.stringify(this.localForm.array_part_of),
 					adjacent_from:JSON.stringify(this.localForm.array_adj_from),
-					AdjacentTo:JSON.stringify(this.localForm.array_adjTo),
+					adjacent_to:JSON.stringify(this.localForm.array_adj_to),
 					version_number:this.localForm.version_number,
 					functional_description:this.localForm.functional_description,
 					associated_standards:this.localForm.associated_standards,
@@ -330,8 +330,8 @@ Vue.component('compForm',{
 					array_part_of:[],
 					adjacent_from:'',
 					array_adj_from:[],
-					AdjacentTo:{adjacent_to_name:'',adjacent_to_function:''},
-					array_adjTo:[],
+					adjacent_to:{adjacent_to_name:'',adjacent_to_function:''},
+					array_adj_to:[],
 					version_number:'',
 					functional_description:'',
 					associated_standards:'',
@@ -364,8 +364,8 @@ Vue.component('compForm',{
 					array_part_of:[],
 					adjacent_from:'',
 					array_adj_from:[],
-					AdjacentTo:{adjacent_to_name:'',adjacent_to_function:''},
-					array_adjTo:[],
+					adjacent_to:{adjacent_to_name:'',adjacent_to_function:''},
+					array_adj_to:[],
 					version_number:'',
 					functional_description:'',
 					associated_standards:'',
@@ -390,8 +390,8 @@ Vue.component('compForm',{
 							this.localForm.array_madeOf.splice(index,1);
 						}else if (type=='part_of'){
 							this.localForm.array_part_of.splice(index,1);
-						}else if (type=='adjacentTo'){
-							this.localForm.array_adjTo.splice(index,1);
+						}else if (type=='adjacent_to'){
+							this.localForm.array_adj_to.splice(index,1);
 						} else if (type=='adjacent_from'){
 							this.localForm.array_adj_from.splice(index,1);
 						} else {
@@ -406,10 +406,10 @@ Vue.component('compForm',{
 				this.localForm.adjacent_from='';
 			},
 
-			addAdjTo: function(){
-				this.localForm.array_adjTo.push({adjacent_to_name:this.localForm.AdjacentTo.adjacent_to_name, adjacent_to_function:this.localForm.AdjacentTo.adjacent_to_function});
-				this.localForm.AdjacentTo.adjacent_to_name = '';
-				this.localForm.AdjacentTo.adjacent_to_function = '';
+			addadj_to: function(){
+				this.localForm.array_adj_to.push({adjacent_to_name:this.localForm.adjacent_to.adjacent_to_name, adjacent_to_function:this.localForm.adjacent_to.adjacent_to_function});
+				this.localForm.adjacent_to.adjacent_to_name = '';
+				this.localForm.adjacent_to.adjacent_to_function = '';
 			},
 
 			addMadeOf: function(){
