@@ -17,14 +17,15 @@ yum update
 yum install nginx (v1.10.2)
 
 nginx config file is /etc/nginx/nginx.conf
-
-
+Check this file on dstl.scpgateway.uk to see how incoming http is directed to the FCMS app
 
 CREATE SSL CERTIFICATE
 
 openssl genrsa -out fcms-key.pem 1024
 openssl req -new -key fcms-key.pem -out certrequest.csr
-openssl x509 -req -in certrequest.csr -signkey fcms-key.pem -out fcms-cert.pe
+openssl x509 -req -in certrequest.csr -signkey fcms-key.pem -out fcms-cert.pem
+
+The pem/csr files should be put in the root folder of the app
 
 GIT CODE REPOSITORY
 yum install git-all
@@ -33,23 +34,16 @@ git config --global user.name "Kylie Minogue"
 git config --global user.email "kylie@minogue.net"
 git config --global core.editor nano
 
-cd path/to/fcms
-git init
-git add .
-git commit
-
-create a repository on github.com or bitbucket.org etc.
-git remote add origin https://github.com/workingmatt/nodejs-vue-form-xml.git
-git push -u origin master
-
-or 
-
+Navigate to one of the following folder:
+o Local development Virtual Machine: ~/dev/nodejs-vue-form-xml
+o dstl.scpgateway.uk: /usr/share/nginx/nodejs-vue-form-xml
+Then:
 git clone https://github.com/workingmatt/nodejs-vue-form-xml.git
 
 BOOTSTRAP V3.3.7
 getbootstrap.com/getting-started/#download
 https://github.com/twbs/bootstrap/download/v3.3.7/bootstrap-3.3.7-dist.zip
-Unarchive the folder, move to code public (nodejs-vue-form-xml/public) and rename to bootstrap
+Unarchive the folder, move it to nodejs-vue-form-xml/public and rename to bootstrap
 
 NODE SERVER APPLICATION
 On the server:
@@ -61,14 +55,14 @@ BROWSER
 127.0.0.1:3000
 
 Remote Server Access
-In Mac, open terminal and type the following:
+On Mac, open terminal and type the following:
 ssh -p 22443 matt.maplest@dstl.scpgateway.uk
 If asked if OK to continue say yes
 Enter the password
 You will then see a command prompt on the server e.g. [matt.mapleston@dstl ~]$
 I can use sudo to get admin rights.
 
-For ftp use sftp with dstl.scpgateway.uk and port 22443 with you credentials.
+For ftp use sftp with dstl.scpgateway.uk and port 22443 with your credentials.
 
 FIREWALL
 https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7
@@ -76,9 +70,9 @@ https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-
 sudo firewall-cmd --list-all
 sudo firewall-cmd --state
 
-firewall services are configured by xml files in /usr/lib/firewalld/services/
+Make sure http is allowed
 
-It wasn't the firewall it's sudo setenforce permissive (TODO make it permanent)
+firewall services are configured by xml files in /usr/lib/firewalld/services/
 
 SELINUX
 Definitely:
@@ -96,7 +90,6 @@ sudo pm2 start server.js
 sudo pm2 save
 
 sudo is important, different users have different pm2s.
-NB there's a matt.mapleston pm2
+NB there's a matt.mapleston pm2 but the app needs su privileges to serve to the web
 
-VM: ~/dev/node....
-SV: /usr/share/nginx/node....
+
