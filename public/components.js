@@ -125,6 +125,11 @@ Vue.component('compForm',{
 			{text:'Status'},
 			{text:'Data'},
 			{text:'Not Defined'}
+		],
+
+		optionsVulnerable: [
+			{text:'True'},
+			{text:'False'}
 		]
 
 		}
@@ -187,6 +192,10 @@ Vue.component('compForm',{
 							Integration Layer:<br>
 								<select v-model="localForm.LayerIntegration">
 									<option v-for="optionLayerIntegration in optionsLayerIntegration" v-bind:value="optionLayerIntegration.text">{{optionLayerIntegration.text}}</option>
+								</select><br>
+							Vulnerable?<br>
+								<select v-model="localForm.vulnerable">
+									<option v-for="optionVulnerable in optionsVulnerable" v-bind:value="optionVulnerable.text">{{optionVulnerable.text}}</option>
 								</select><br>
 						</div>
 					</div>
@@ -311,7 +320,8 @@ Vue.component('compForm',{
 					program_cease_production_date: this.localForm.program_cease_production_date,
 					manufacturer:this.localForm.manufacturer,
 					id:this.localForm.id,
-					references:this.localForm.references
+					references:this.localForm.references,
+					vulnerable:this.localForm.vulnerable
 				};
 
 				this.$emit("event_save_form", JSON.stringify(msg));//pass msg to app.js
@@ -343,7 +353,8 @@ Vue.component('compForm',{
 					program_cease_production_date: new Date("2001-01-01"),
 					manufacturer:'',
 					id:'',
-					references:''
+					references:'',
+					vulnerable:''
 				};
 
 				this.index = this.allForms.length;
@@ -377,7 +388,8 @@ Vue.component('compForm',{
 					program_cease_production_date: "2001-01-01",//new Date("2001-01-01"),
 					manufacturer:'',
 					id:'',
-					references:''
+					references:'',
+					vulnerable:''
 				};
 
 				this.$emit("event_cancel_form");

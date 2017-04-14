@@ -109,7 +109,8 @@ processJsonToAveriti: function(objJson) {
 					.ele('program_cease_production_date',objJson.program_cease_production_date).up()
 					.ele('manufacturer',objJson.manufacturer).up()
 					.ele('id',objJson.id).up()
-					.ele('references',objJson.references).up();
+					.ele('references',objJson.references).up()
+					.ele('vulnerable',objJson.vulnerable).up();
 
 	var xmlString = _xmlSubsystem.end({pretty: true});
 	return xmlString;
@@ -120,9 +121,13 @@ processAveritiToJson: function(filename, res){
 	console.log("In processAveritiToJson: "+filename);
 	var _fileForConversion = fs.readFile(filename, 'utf8', function(err, data){
 		if(err){
+			console.log('Error1');
 			throw err;
 		}
 		_resp = parseString(data, function(err, result){
+			if(err){
+				console.log('Error2');
+			}
 			res.send(JSON.stringify(result));
 			return;
 		});

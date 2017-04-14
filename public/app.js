@@ -36,7 +36,8 @@ var app = new Vue({
 			program_cease_production_date: new Date(),
 			manufacturer:'',
 			id:'',
-			references:''
+			references:'',
+			vulnerable:''
 		},
 
 
@@ -116,6 +117,7 @@ var app = new Vue({
 				this.form.manufacturer = _objToBeEdited.subsystem.manufacturer[0];
 				this.form.id = _objToBeEdited.subsystem.id[0];
 				this.form.references = _objToBeEdited.subsystem.references[0];
+				this.form.vulnerable = _objToBeEdited.subsystem.vulnerable[0];
 				
 				console.log("app.js this.form: "+this.form.Platform)
 
@@ -150,6 +152,7 @@ var app = new Vue({
 			//store locally and on server
 			//localStorage.setItem('fcmsLocalFiles', JSON.stringify(this.allForms));
 			this.$http.post('/forms', form).then(function(res){
+				console.log('Saving Form');
 				console.log(res.body);
 			});
 
